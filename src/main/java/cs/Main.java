@@ -1,5 +1,6 @@
 package cs;
 
+import java.sql.Connection;
 import java.util.Arrays;
 
 import org.springframework.boot.CommandLineRunner;
@@ -7,6 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+
+import static cs.Utils.getNewConnection;
 
 @SpringBootApplication
 public class Main {
@@ -26,6 +29,8 @@ public class Main {
             for (String beanName : beanNames) {
                 System.out.println(beanName);
             }
+
+            Connection connection = getNewConnection();
 
         };
     }
