@@ -1,7 +1,9 @@
 package cs;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +16,13 @@ import static cs.Utils.getNewConnection;
 @SpringBootApplication
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = getNewConnection();
+        Utils.createCSTables(connection);
+        Scanner sc = new Scanner(System.in);
+        String block = sc.next();
+        Utils.dropCSTables(connection);
+
         SpringApplication.run(Main.class, args);
     }
 
