@@ -20,12 +20,6 @@ public class TestDB {
     }
 
     @Test
-    public void createAndDrop() throws SQLException {
-        utils.createCSTables(connection);
-        utils.dropCSTables(connection);
-    }
-
-    @Test
     public void shouldGetJdbcConnection() throws SQLException {
         try(Connection connection = utils.getNewConnection()) {
             assertTrue(connection.isValid(1));

@@ -10,17 +10,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 public class Main {
 
-    private final Utils utils;
-
-    public Main(Utils utils) {
-        this.utils = utils;
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = getNewConnection();
         SpringApplication.run(Main.class, args);
     }
 
