@@ -13,6 +13,7 @@ public class Ward {
     private Integer id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @NotNull
@@ -22,4 +23,14 @@ public class Ward {
     private List<People> peopleList;
 
     public Ward() {}
+
+    public Ward(String name, Integer maxCount) {
+        this.name = name;
+        this.maxCount = maxCount;
+    }
+
+    @Override
+    public String toString() {
+        return name + " capacity " + maxCount;
+    }
 }

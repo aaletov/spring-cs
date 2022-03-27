@@ -12,10 +12,16 @@ public class Diagnosis {
     private List<People> peopleList;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     public Diagnosis() {}
+
+    public Diagnosis(String name) {
+        this.name = name;
+    }
 }

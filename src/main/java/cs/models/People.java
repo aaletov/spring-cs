@@ -9,7 +9,7 @@ public class People {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    public Integer id;
 
     @NotNull
     private String firstName;
@@ -29,4 +29,21 @@ public class People {
     private Ward ward;
 
     public People() {}
+
+    public People(String firstName, String lastName, String patherName, Diagnosis diagnosis, Ward ward) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patherName = patherName;
+        this.diagnosis = diagnosis;
+        this.ward = ward;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(firstName)
+                .append(lastName)
+                .append(patherName)
+                .toString();
+    }
 }
