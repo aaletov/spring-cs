@@ -2,27 +2,20 @@ package cs.models;
 
 import com.sun.istack.NotNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Diagnosis {
 
+    @OneToMany(mappedBy = "diagnosis")
+    private List<People> peoples;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @NotNull
     private String name;
 
-    public Diagnosis(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Diagnosis() {
-
-    }
+    public Diagnosis() {}
 }
