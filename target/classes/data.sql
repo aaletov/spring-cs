@@ -1,0 +1,1 @@
+insert into DIAGNOSIS (id, name) values (1, 'rak hiva');
