@@ -121,7 +121,7 @@ public class Main {
             System.out.println("Find full wards");
             System.out.println(peopleRepository.findFullWards());
 
-            guy = new People("Alexey", "Martynov", "Valerievich", cancer, ward1);
+            guy = new People("Alexey", "Yanbukhtin", "Valerievich", cancer, ward1);
             peopleRepository.save(guy);
             System.out.println("Find full wards");
             System.out.println(peopleRepository.findFullWards());

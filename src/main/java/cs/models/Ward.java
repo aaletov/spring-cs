@@ -33,4 +33,5 @@ public class Ward {
     public String toString() {
         return name + " capacity " + maxCount;
     }
+
 }

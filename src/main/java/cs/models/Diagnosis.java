@@ -24,4 +24,5 @@ public class Diagnosis {
     public Diagnosis(String name) {
         this.name = name;
     }
+
 }
