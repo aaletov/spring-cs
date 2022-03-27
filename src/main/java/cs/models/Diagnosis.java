@@ -9,7 +9,7 @@ import java.util.List;
 public class Diagnosis {
 
     @OneToMany(mappedBy = "diagnosis")
-    private List<People> peoples;
+    private List<People> peopleList;
 
     @Id
     private Integer id;

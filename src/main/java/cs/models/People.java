@@ -24,5 +24,9 @@ public class People {
     @JoinColumn(name = "diagnosis_id")
     private Diagnosis diagnosis;
 
+    @ManyToOne
+    @JoinColumn(name = "ward_id")
+    private Ward ward;
+
     public People() {}
 }
