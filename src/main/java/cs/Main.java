@@ -11,35 +11,25 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import static cs.Utils.getNewConnection;
-
 @SpringBootApplication
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
-        Connection connection = getNewConnection();
-        Utils.createCSTables(connection);
-        Scanner sc = new Scanner(System.in);
-        String block = sc.next();
-        Utils.dropCSTables(connection);
+    private final Utils utils;
 
+    public Main(Utils utils) {
+        this.utils = utils;
+    }
+
+    public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
 
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-
-            System.out.println("Let's inspect the beans provided by Spring Boot:");
-
-            String[] beanNames = ctx.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-
-            Connection connection = getNewConnection();
-
+            Connection connection = utils.getNewConnection();
+            utils.createCSTables(connection);
+            utils.dropCSTables(connection);
         };
     }
 
