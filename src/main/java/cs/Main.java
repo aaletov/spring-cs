@@ -61,6 +61,7 @@ public class Main {
             Diagnosis rhinitis = diagnosisRepository.findDiagnosisByName("Rhinitis");
 
             Ward ward1 = wardRepository.findWardByName("Ward 1");
+            Ward ward2 = wardRepository.findWardByName("Ward 2");
             Ward ward3 = wardRepository.findWardByName("Ward 3");
 
             ArrayList<People> people = new ArrayList<>(Arrays.asList(
@@ -68,63 +69,14 @@ public class Main {
                     new People("Sergey", "Mitrakov", "Vladivladovich", tonsillitis, ward3),
                     new People("Islam", "Ivanov", "Inalovich", tuberculosis, ward1),
                     new People("Ekaterina", "Brown", "Ekaterinovna", cancer, ward3),
-                    new People("Faizullo", "Valiev", "Shakhrierovich", cancer, ward1)
-            ));
+                    new People("Faizullo", "Valiev", "Shakhrierovich", cancer, ward1),
+                    new People("Ivan", "Bochkov","Alexeevich", rhinitis, ward2),
+                    new People("Nikita", "Gaevoy", "Sergeevich", cancer, ward2),
+                    new People("Boris", "Zolotov", "Alexeevich", rhinitis, ward2),
+                    new People("Constantin", "Kalinin", "Mihailovivch", tuberculosis, ward2)
+                    ));
             peopleRepository.saveAll(people);
 
-            // 9
-
-            System.out.println("Find people with tuberculosis");
-            peopleRepository.findPeopleByDiagnosis(tuberculosis)
-                    .forEach(System.out::println);
-
-            System.out.println("Find people with tonsillitis");
-            peopleRepository.findPeopleByDiagnosis(tonsillitis)
-                    .forEach(System.out::println);
-
-            System.out.println("Find people with rhinitis");
-            peopleRepository.findPeopleByDiagnosis(rhinitis)
-                    .forEach(System.out::println);
-
-            // one-table queries update
-            System.out.println("Find people in Ward 2");
-            Ward ward2 = wardRepository.findWardByName("Ward 2");
-            System.out.println(peopleRepository.findPeopleByWard(ward2));
-            People guy = peopleRepository.findPeopleByFirstName("Islam").get();
-            System.out.println("Updating table");
-            peopleRepository.updateWard(guy, ward2);
-            System.out.println(peopleRepository.findPeopleByWard(ward2));
-
-            // 17
-
-            //
-            System.out.println("Find people in Ward 2");
-            peopleRepository.findPeopleByWardName("Ward 2")
-                    .forEach(System.out::println);
-            System.out.println("Find people in Ward 4");
-            peopleRepository.findPeopleByWardName("Ward 4")
-                    .forEach(System.out::println);
-
-            Ward ward4 = wardRepository.findWardByName("Ward 4");
-            peopleRepository.updateWardAll(ward2, ward4);
-
-            System.out.println("Find people in Ward 2");
-            peopleRepository.findPeopleByWardName("Ward 2")
-                    .forEach(System.out::println);
-            System.out.println("Find people in Ward 4");
-            peopleRepository.findPeopleByWardName("Ward 4")
-                    .forEach(System.out::println);
-
-            System.out.println("Count people in Ward 1");
-            System.out.println(peopleRepository.countPeopleByWardName("Ward 1"));
-
-            System.out.println("Find full wards");
-            System.out.println(peopleRepository.findFullWards());
-
-            guy = new People("Alexey", "Yanbukhtin", "Valerievich", cancer, ward1);
-            peopleRepository.save(guy);
-            System.out.println("Find full wards");
-            System.out.println(peopleRepository.findFullWards());
         };
     }
 
