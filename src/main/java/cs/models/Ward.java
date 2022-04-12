@@ -1,10 +1,13 @@
 package cs.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Data
 @Entity
 public class Ward {
 
@@ -19,8 +22,9 @@ public class Ward {
     @NotNull
     private Integer maxCount;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "ward")
-    private List<People> peopleList;
+    private List<People> peoples;
 
     public Ward() {}
 

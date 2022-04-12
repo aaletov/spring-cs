@@ -1,13 +1,17 @@
 package cs.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Data
 @Entity
 public class Diagnosis {
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "diagnosis")
     private List<People> peopleList;
 

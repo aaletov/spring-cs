@@ -9,5 +9,4 @@ public class DiagnosisService {
 
     private DiagnosisRepository diagnosisRepository;
 
-
 }
