@@ -125,6 +125,12 @@ public class Main {
             peopleRepository.save(guy);
             System.out.println("Find full wards");
             System.out.println(peopleRepository.findFullWards());
+
+            System.out.println("Find people by diagnosis name");
+            peopleRepository.findPeopleByDiagnosisName("Cancer").forEach(System.out::println);
+
+            System.out.println("Find people by ward max count");
+            peopleRepository.findPeopleByWardMaxCount(5).forEach(System.out::println);
         };
     }
 

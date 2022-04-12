@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface PeopleRepository extends CrudRepository<People, Integer> {
     Integer countPeopleByWardName(String name);
     Iterable<People> findPeopleByDiagnosis(Diagnosis diagnosis);
+    Iterable<People> findPeopleByDiagnosisName(String name);
+    Iterable<People> findPeopleByWardMaxCount(Integer maxCount);
     Iterable<People> findPeopleByWard(Ward ward);
     Optional<People> findPeopleByFirstName(String name);
     Iterable<People> findPeopleByWardName(String name);
