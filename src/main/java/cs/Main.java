@@ -1,11 +1,5 @@
 package cs;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
 import cs.models.Diagnosis;
 import cs.models.People;
 import cs.models.Ward;
@@ -17,7 +11,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class Main {
@@ -55,14 +51,14 @@ public class Main {
             ));
             wardRepository.saveAll(wards);
 
-            Diagnosis tonsillitis = diagnosisRepository.findDiagnosisByName("Tonsillitis");
-            Diagnosis tuberculosis = diagnosisRepository.findDiagnosisByName("Tuberculosis");
-            Diagnosis cancer = diagnosisRepository.findDiagnosisByName("Cancer");
-            Diagnosis rhinitis = diagnosisRepository.findDiagnosisByName("Rhinitis");
+            Diagnosis tonsillitis = diagnosisRepository.findDiagnosisByName("Tonsillitis").get();
+            Diagnosis tuberculosis = diagnosisRepository.findDiagnosisByName("Tuberculosis").get();
+            Diagnosis cancer = diagnosisRepository.findDiagnosisByName("Cancer").get();
+            Diagnosis rhinitis = diagnosisRepository.findDiagnosisByName("Rhinitis").get();
 
-            Ward ward1 = wardRepository.findWardByName("Ward 1");
-            Ward ward2 = wardRepository.findWardByName("Ward 2");
-            Ward ward3 = wardRepository.findWardByName("Ward 3");
+            Ward ward1 = wardRepository.findWardByName("Ward 1").get();
+            Ward ward2 = wardRepository.findWardByName("Ward 2").get();
+            Ward ward3 = wardRepository.findWardByName("Ward 3").get();
 
             ArrayList<People> people = new ArrayList<>(Arrays.asList(
                     new People("Ivan", "Smirnov", "Eugenevich", tonsillitis, ward1),

@@ -18,6 +18,7 @@ public interface PeopleRepository extends CrudRepository<People, Integer> {
     Optional<People> findPeopleByFirstName(String name);
     Iterable<People> findPeopleByWardName(String name);
 
+
     @Modifying
     @Transactional
     @Query("update People p set p.ward = :ward where p.id = :#{#people.id}")
@@ -31,4 +32,5 @@ public interface PeopleRepository extends CrudRepository<People, Integer> {
     @Query("select w from Ward w where w.maxCount = (select count(p.id) from People p where w = p.ward)")
     Iterable<Ward> findFullWards();
 
+    Optional<People> findPeopleById(Integer id);
 }

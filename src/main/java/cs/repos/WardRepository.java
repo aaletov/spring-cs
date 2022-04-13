@@ -3,8 +3,11 @@ package cs.repos;
 import cs.models.Ward;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 public interface WardRepository extends CrudRepository<Ward, Integer> {
 
-    Ward findWardByName(String name);
+    Optional<Ward> findWardByName(String name);
+    Optional<Ward> findWardById(Integer id);
 
 }
