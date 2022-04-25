@@ -2,6 +2,7 @@ package cs.controllers;
 
 import cs.models.People;
 import cs.services.PeopleService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

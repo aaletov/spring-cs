@@ -1,0 +1,22 @@
+GET http://localhost:8080/api/diagnosis/3
+Accept: application/json
+###
+GET http://localhost:8080/api/people/10
+Accept: application/json
+###
+GET http://localhost:8080/api/ward/6
+Accept: application/json
+###
+POST http://localhost:8080/api/people/save
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": 30,
+  "firstName": "Louis",
+  "lastName": "Lee",
+  "patherName": "Kim",
+  "diagnosis_id": 1,
+  "ward_id": 6
+}
+###

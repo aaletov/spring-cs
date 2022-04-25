@@ -1,8 +1,9 @@
 package cs.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 
@@ -12,25 +13,33 @@ public class People {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
     private Integer id;
 
     @NotNull
+    @Getter
     private String firstName;
 
     @NotNull
+    @Getter
     private String lastName;
 
     @NotNull
+    @Getter
     private String patherName;
 
-    @JsonBackReference
+    @JsonProperty("diagnosis_id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name = "diagnosis_id")
+    @Getter
     private Diagnosis diagnosis;
 
-    @JsonBackReference
+    @JsonProperty("ward_id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name = "ward_id")
+    @Getter
     private Ward ward;
 
     public People() {}

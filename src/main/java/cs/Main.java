@@ -6,6 +6,7 @@ import cs.models.Ward;
 import cs.repos.DiagnosisRepository;
 import cs.repos.PeopleRepository;
 import cs.repos.WardRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
