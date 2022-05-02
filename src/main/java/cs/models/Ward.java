@@ -13,6 +13,7 @@ import java.util.List;
 public class Ward {
 
     @Id
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
@@ -23,6 +24,7 @@ public class Ward {
     @NotNull
     private Integer maxCount;
 
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "ward")
     private List<People> peoples;

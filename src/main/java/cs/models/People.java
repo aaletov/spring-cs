@@ -12,8 +12,8 @@ import javax.persistence.*;
 public class People {
 
     @Id
+    @Column(columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
     private Integer id;
 
     @NotNull

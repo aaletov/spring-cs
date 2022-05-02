@@ -1,8 +1,10 @@
 package cs.repos;
 
+import com.sun.istack.NotNull;
 import cs.models.Diagnosis;
 import cs.models.People;
 import cs.models.Ward;
+import lombok.Getter;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,6 +19,12 @@ public interface PeopleRepository extends CrudRepository<People, Integer> {
     Iterable<People> findPeopleByWard(Ward ward);
     Optional<People> findPeopleByFirstName(String name);
     Iterable<People> findPeopleByWardName(String name);
+    @Modifying
+    @Transactional
+    @Query(value = "insert into people(first_name, last_name, pather_name, ward_id, diagnosis_id) " +
+            "values(:firstName,:lastName,:patherName,:wardId,:diagnosisId)", nativeQuery = true)
+    void saveByWardIdAndDiagnosisId(String firstName, String lastName, String patherName,
+                                    Integer wardId, Integer diagnosisId);
 
 
     @Modifying

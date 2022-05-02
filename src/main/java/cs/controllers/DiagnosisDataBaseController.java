@@ -19,7 +19,7 @@ public class DiagnosisDataBaseController {
         return diagnosisService.getDiagnosisById(id).get();
     }
 
-    @PostMapping("/save")
+    @PostMapping(value = "/save")
     public void save(@RequestBody Diagnosis diagnosis) {
         diagnosisService.save(diagnosis);
     }

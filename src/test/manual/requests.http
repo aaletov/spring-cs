@@ -7,15 +7,32 @@ Accept: application/json
 GET http://localhost:8080/api/ward/6
 Accept: application/json
 ###
-POST http://localhost:8080/api/people/save
+POST http://localhost:8080/api/diagnosis/save
 Content-Type: application/json
-Accept: application/json
 
 {
-  "id": 30,
-  "firstName": "Louis",
-  "lastName": "Lee",
-  "patherName": "Kim",
+  "peopleList": [],
+  "id": null,
+  "name": "Sifilis"
+}
+###
+POST http://localhost:8080/api/ward/save
+Content-Type: application/json
+
+{
+  "peopleList": [],
+  "id": null,
+  "name": "Ward 10"
+}
+###
+POST http://localhost:8080/api/people/save
+Content-Type: application/json
+
+{
+  "id": null,
+  "firstName": "Alexey",
+  "lastName": "Piipkin",
+  "patherName": "Dianovich",
   "diagnosis_id": 1,
   "ward_id": 6
 }

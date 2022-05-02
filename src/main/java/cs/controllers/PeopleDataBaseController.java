@@ -1,5 +1,6 @@
 package cs.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import cs.models.People;
 import cs.services.PeopleService;
 import org.springframework.http.MediaType;
@@ -21,8 +22,8 @@ public class PeopleDataBaseController {
     }
 
     @PostMapping("/save")
-    public void save(@RequestBody People people) {
-        peopleService.save(people);
+    public void save(@RequestBody String peopleString) throws JsonProcessingException {
+        peopleService.saveByIds(peopleString);
     }
 
     @PutMapping("/put")
