@@ -1,10 +1,9 @@
 package cs.services;
 
+import cs.exceptions.NoSuchEntryException;
 import cs.models.Diagnosis;
 import cs.repos.DiagnosisRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class DiagnosisService {
@@ -15,20 +14,18 @@ public class DiagnosisService {
         this.diagnosisRepository = diagnosisRepository;
     }
 
-    public Optional<Diagnosis> getDiagnosisById(Integer id) {
-        return diagnosisRepository.findDiagnosisById(id);
+    public Diagnosis getDiagnosisById(Integer id) throws NoSuchEntryException {
+        return diagnosisRepository.findDiagnosisById(id).orElseThrow(() -> {
+            return new NoSuchEntryException("No Diagnosis found with id " + id);
+        });
     }
 
     public void save(Diagnosis diagnosis) {
         diagnosisRepository.save(diagnosis);
     }
 
-    public void update(Diagnosis diagnosis) {
-        diagnosisRepository.save(diagnosis);
-    }
-
-    public void delete(Diagnosis diagnosis) {
-        diagnosisRepository.delete(diagnosis);
+    public boolean doesExistsDiagnosisById(Integer id) {
+        return diagnosisRepository.findDiagnosisById(id).isPresent();
     }
 
 }

@@ -1,7 +1,10 @@
 package cs.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import cs.exceptions.NoSuchEntryException;
 import cs.models.Diagnosis;
 import cs.services.DiagnosisService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,28 +13,25 @@ public class DiagnosisDataBaseController {
 
     private DiagnosisService diagnosisService;
 
+    @ExceptionHandler({ JsonProcessingException.class, NoSuchEntryException.class })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handleException(JsonProcessingException e) {
+        return e.getMessage();
+    }
+
     public DiagnosisDataBaseController(DiagnosisService diagnosisService) {
         this.diagnosisService = diagnosisService;
     }
 
     @GetMapping("/{id}")
-    public Diagnosis getDiagnosisById(@PathVariable Integer id) {
-        return diagnosisService.getDiagnosisById(id).get();
+    public Diagnosis getDiagnosisById(@PathVariable Integer id) throws NoSuchEntryException {
+        return diagnosisService.getDiagnosisById(id);
     }
 
     @PostMapping(value = "/save")
-    public void save(@RequestBody Diagnosis diagnosis) {
+    public String save(@RequestBody Diagnosis diagnosis) {
         diagnosisService.save(diagnosis);
-    }
-
-    @PutMapping("/put")
-    public void update(@RequestBody Diagnosis diagnosis) {
-        diagnosisService.update(diagnosis);
-    }
-
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody Diagnosis diagnosis) {
-        diagnosisService.delete(diagnosis);
+        return "Saved successfully";
     }
 
 }

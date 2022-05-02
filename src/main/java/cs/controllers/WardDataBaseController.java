@@ -1,7 +1,10 @@
 package cs.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import cs.exceptions.NoSuchEntryException;
 import cs.models.Ward;
 import cs.services.WardService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,28 +13,25 @@ public class WardDataBaseController {
 
     private WardService wardService;
 
+    @ExceptionHandler({ JsonProcessingException.class, NoSuchEntryException.class })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handleException(JsonProcessingException e) {
+        return e.getMessage();
+    }
+
     public WardDataBaseController(WardService wardService) {
         this.wardService = wardService;
     }
 
     @GetMapping("/{id}")
-    public Ward getWardById(@PathVariable Integer id) {
-        return wardService.getWardById(id).get();
+    public Ward getWardById(@PathVariable Integer id) throws NoSuchEntryException {
+        return wardService.getWardById(id);
     }
 
     @PostMapping("/save")
-    public void save(@RequestBody Ward ward) {
+    public String save(@RequestBody Ward ward) {
         wardService.save(ward);
-    }
-
-    @PutMapping("/put")
-    public void update(@RequestBody Ward ward) {
-        wardService.update(ward);
-    }
-
-    @DeleteMapping("/delete")
-    public void delete(@RequestBody Ward ward) {
-        wardService.delete(ward);
+        return "Saved successfully";
     }
 
 }

@@ -1,9 +1,11 @@
 package cs.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import cs.exceptions.NoSuchEntryException;
+import cs.exceptions.NoSuchJsonPropertyException;
 import cs.models.People;
 import cs.services.PeopleService;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,28 +14,37 @@ public class PeopleDataBaseController {
 
     private PeopleService peopleService;
 
+    @ExceptionHandler({ JsonProcessingException.class, NoSuchJsonPropertyException.class, NoSuchEntryException.class })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handleException(Exception e) {
+        return e.getMessage();
+    }
+
     public PeopleDataBaseController(PeopleService peopleService) {
         this.peopleService = peopleService;
     }
 
     @GetMapping("/{id}")
-    public People getPeopleById(@PathVariable Integer id) {
-        return peopleService.getPeopleById(id).get();
+    public People getPeopleById(@PathVariable Integer id) throws NoSuchEntryException {
+        return peopleService.getPeopleById(id);
     }
 
     @PostMapping("/save")
-    public void save(@RequestBody String peopleString) throws JsonProcessingException {
-        peopleService.saveByIds(peopleString);
+    public String save(@RequestBody String peopleJsonString) throws JsonProcessingException {
+        peopleService.saveByIds(peopleJsonString);
+        return "Saved successfully";
     }
 
-    @PutMapping("/put")
-    public void update(@RequestBody People people) {
-        peopleService.update(people);
+    @PatchMapping("/patchPeopleWard")
+    public String patchPeopleWard(@RequestBody String peopleJsonString) throws JsonProcessingException, NoSuchEntryException {
+        peopleService.patchPeopleWard(peopleJsonString);
+        return "Patched successfully";
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestBody People people) {
-        peopleService.delete(people);
+    public String deletePeopleById(@RequestBody String peopleIdJson) throws JsonProcessingException {
+        peopleService.deletePeopleById(peopleIdJson);
+        return "Deleted successfully";
     }
 
 }

@@ -26,6 +26,10 @@ public interface PeopleRepository extends CrudRepository<People, Integer> {
     void saveByWardIdAndDiagnosisId(String firstName, String lastName, String patherName,
                                     Integer wardId, Integer diagnosisId);
 
+    @Modifying
+    @Transactional
+    @Query(value = "update People set ward_id = :wardId where id = :peopleId", nativeQuery = true)
+    void updatePeopleByWardId(Integer peopleId, Integer wardId);
 
     @Modifying
     @Transactional

@@ -17,29 +17,24 @@ public class People {
     private Integer id;
 
     @NotNull
-    @Getter
     private String firstName;
 
     @NotNull
-    @Getter
     private String lastName;
 
     @NotNull
-    @Getter
     private String patherName;
 
     @JsonProperty("diagnosis_id")
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name = "diagnosis_id")
-    @Getter
     private Diagnosis diagnosis;
 
     @JsonProperty("ward_id")
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name = "ward_id")
-    @Getter
     private Ward ward;
 
     public People() {}

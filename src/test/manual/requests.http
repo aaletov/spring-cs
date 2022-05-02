@@ -37,3 +37,28 @@ Content-Type: application/json
   "ward_id": 6
 }
 ###
+// Should fail
+POST http://localhost:8080/api/people/save
+Content-Type: application/json
+
+{
+  "field": "field"
+}
+###
+PATCH http://localhost:8080/api/people/patchPeopleWard
+Content-Type: application/json
+
+{
+  "people_id": 10,
+  "ward_id": 7
+}
+###
+// Should fail
+PATCH http://localhost:8080/api/people/patchPeopleWard
+Content-Type: application/json
+
+{
+  "people_id": 10,
+  "ward_id": 1
+}
+###

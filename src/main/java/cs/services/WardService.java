@@ -1,5 +1,6 @@
 package cs.services;
 
+import cs.exceptions.NoSuchEntryException;
 import cs.models.Ward;
 import cs.repos.WardRepository;
 import org.springframework.stereotype.Service;
@@ -14,19 +15,17 @@ public class WardService {
         this.wardRepository = wardRepository;
     }
 
-    public Optional<Ward> getWardById(Integer id) {
-        return wardRepository.findWardById(id);
+    public Ward getWardById(Integer id) throws NoSuchEntryException {
+        return wardRepository.findWardById(id).orElseThrow(() -> {
+            return new NoSuchEntryException("No such Ward with id " + id);
+        });
     }
 
     public void save(Ward ward) {
         wardRepository.save(ward);
     }
 
-    public void update(Ward ward) {
-        wardRepository.save(ward);
-    }
-
-    public void delete(Ward ward) {
-        wardRepository.delete(ward);
+    public boolean doesExistsWardById(Integer id) {
+        return wardRepository.findWardById(id).isPresent();
     }
 }
