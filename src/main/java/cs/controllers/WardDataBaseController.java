@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/ward")
+@RequestMapping("/api/ward")
 public class WardDataBaseController {
 
     private WardService wardService;

@@ -18,7 +18,7 @@ import java.util.Collection;
 @Table(name = "Users")
 @NoArgsConstructor(access=AccessLevel.PRIVATE, force=true)
 @RequiredArgsConstructor
-public class User implements UserDetails {
+public class MyUser implements UserDetails {
 
     @Id
     @NotNull
@@ -35,6 +35,12 @@ public class User implements UserDetails {
     @NotNull
     private final boolean enabled;
 
+    public MyUser(String username, String passwordEncoded) {
+        this.username = username;
+        this.password = passwordEncoded;
+        this.enabled = true;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
@@ -42,26 +48,26 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
