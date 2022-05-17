@@ -2,6 +2,7 @@ package cs.models;
 
 import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import lombok.Data;
 import lombok.Getter;
 

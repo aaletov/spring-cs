@@ -29,7 +29,6 @@ POST http://localhost:8080/api/people/save
 Content-Type: application/json
 
 {
-  "id": null,
   "firstName": "Alexey",
   "lastName": "Piipkin",
   "patherName": "Dianovich",

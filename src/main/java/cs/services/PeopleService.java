@@ -33,10 +33,7 @@ public class PeopleService {
     }
 
     Map<String, JsonNode> mapJsonPropertiesToJsonNodeList(JsonNode jsonNode, String[] jsonProperties) {
-        return Arrays.stream(new String[]{
-                "people_id",
-                "ward_id"
-        }).collect(Collectors.toMap((property) -> property, (property) -> {
+        return Arrays.stream(jsonProperties).collect(Collectors.toMap((property) -> property, (property) -> {
             JsonNode childJsonNode = jsonNode.get(property);
             if (jsonNode.get(property) == null) {
                 throw new NoSuchJsonPropertyException("The property " + property + " can't be null");
@@ -60,8 +57,8 @@ public class PeopleService {
         String firstName = stringJsonNodeMap.get("firstName").asText();
         String lastName = stringJsonNodeMap.get("lastName").asText();
         String patherName = stringJsonNodeMap.get("patherName").asText();
-        Integer wardId = stringJsonNodeMap.get("wardId").asInt();
-        Integer diagnosisId = stringJsonNodeMap.get("diagnosisId").asInt();
+        Integer wardId = stringJsonNodeMap.get("ward_id").asInt();
+        Integer diagnosisId = stringJsonNodeMap.get("diagnosis_id").asInt();
 
         peopleRepository.saveByWardIdAndDiagnosisId(
                 firstName,

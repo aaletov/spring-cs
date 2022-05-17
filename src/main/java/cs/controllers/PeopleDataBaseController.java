@@ -17,6 +17,7 @@ public class PeopleDataBaseController {
     @ExceptionHandler({ JsonProcessingException.class, NoSuchJsonPropertyException.class, NoSuchEntryException.class })
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(Exception e) {
+        e.printStackTrace();
         return e.getMessage();
     }
 
@@ -30,7 +31,7 @@ public class PeopleDataBaseController {
     }
 
     @PostMapping("/save")
-    public String save(@RequestBody String peopleJsonString) throws JsonProcessingException {
+    public String savePeopleWard(@RequestBody String peopleJsonString) throws JsonProcessingException {
         peopleService.saveByIds(peopleJsonString);
         return "Saved successfully";
     }

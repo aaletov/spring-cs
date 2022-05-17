@@ -16,6 +16,7 @@ public class DiagnosisDataBaseController {
     @ExceptionHandler({ JsonProcessingException.class, NoSuchEntryException.class })
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(JsonProcessingException e) {
+        e.printStackTrace();
         return e.getMessage();
     }
 
