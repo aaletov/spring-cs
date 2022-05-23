@@ -5,6 +5,7 @@ import cs.models.Ward;
 import cs.repos.WardRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,10 @@ public class WardService {
 
     public Iterable<Ward> getFullWards() {
         return wardRepository.findFullWards();
+    }
+
+    public Iterable<Ward> getEmptyWards() {
+        return wardRepository.findEmptyWards();
     }
 
     public void save(Ward ward) {

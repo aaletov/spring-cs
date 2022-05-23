@@ -19,16 +19,13 @@ public interface PeopleRepository extends CrudRepository<People, Integer> {
     Iterable<People> findPeopleByWard(Ward ward);
     Optional<People> findPeopleByFirstName(String name);
     Iterable<People> findPeopleByWardName(String name);
-
     @Modifying
     @Transactional
     @Query("update People p set p.ward = :ward where p.id = :#{#people.id}")
     void updateWard(@Param("people") People people, @Param("ward") Ward ward);
-
     @Modifying
     @Transactional
     @Query("update People p set p.ward = :ward_dest where p.ward = :ward_source")
     void updateWardAll(@Param("ward_source") Ward wardSource, @Param("ward_dest") Ward wardDest);
-
     Optional<People> findPeopleById(Integer id);
 }

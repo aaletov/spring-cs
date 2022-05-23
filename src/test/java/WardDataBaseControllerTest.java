@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cs.Main;
 import cs.models.Diagnosis;
 import cs.models.People;
@@ -15,7 +16,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -32,6 +35,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class WardDataBaseControllerTest {
     @Autowired
     MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     WardRepository wardRepository;
@@ -69,6 +75,26 @@ public class WardDataBaseControllerTest {
         peopleRepository.save(people);
 
         mockMvc.perform(get("/api/ward/getFullWards"))
+                .andExpect((result -> {
+                    String content = result.getResponse().getContentAsString();
+                    List<Ward> wardList = Arrays.asList(objectMapper.readValue(content, Ward[].class));
+                    assertEquals(wardList.size(), 1);
+                }))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetEmptyWards() throws Exception {
+        Ward ward = new Ward();
+        ward.setMaxCount(1);
+        wardRepository.save(ward);
+
+        mockMvc.perform(get("/api/ward/getEmptyWards"))
+                .andExpect((result -> {
+                    String content = result.getResponse().getContentAsString();
+                    List<Ward> wardList = Arrays.asList(objectMapper.readValue(content, Ward[].class));
+                    assertEquals(wardList.size(), 1);
+                }))
                 .andExpect(status().isOk());
     }
 
