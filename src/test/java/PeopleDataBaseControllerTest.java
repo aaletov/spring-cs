@@ -76,19 +76,12 @@ public class PeopleDataBaseControllerTest {
         Ward ward = new Ward();
         wardRepository.save(ward);
 
-        Map<String, String> bodyMap = new HashMap<>() {{
-           put("firstName", "Igor");
-           put("lastName", "Usupov");
-           put("patherName", "Ilyich");
-           put("wardId", "1");
-           put("diagnosisId", "1");
-        }};
-
-        JSONObject bodyJSON = new JSONObject(bodyMap);
-
         mockMvc.perform(post("/api/people/save")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(bodyJSON.toString()))
+                .param("firstName", "Igor")
+                .param("lastName", "Usupov")
+                .param("patherName", "Ilyich")
+                .param("wardId", "1")
+                .param("diagnosisId", "1"))
                 .andExpect(status().isOk());
 
     }
@@ -105,16 +98,9 @@ public class PeopleDataBaseControllerTest {
         ward = new Ward();
         wardRepository.save(ward);
 
-        Map<String, String> bodyMap = new HashMap<>() {{
-            put("peopleId", "1");
-            put("wardId", "2");
-        }};
-
-        JSONObject bodyJSON = new JSONObject(bodyMap);
-
         mockMvc.perform(patch("/api/people/patchPeopleWard")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(bodyJSON.toString()))
+                .param("peopleId", "1")
+                .param("wardId", "2"))
                 .andExpect(status().isOk());
     }
 
@@ -134,16 +120,9 @@ public class PeopleDataBaseControllerTest {
         ward = new Ward();
         wardRepository.save(ward);
 
-        Map<String, String> bodyMap = new HashMap<>() {{
-            put("wardSourceId", "1");
-            put("wardDestId", "2");
-        }};
-
-        JSONObject bodyJSON = new JSONObject(bodyMap);
-
         mockMvc.perform(patch("/api/people/moveAllPeopleFromWardTo")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(bodyJSON.toString()))
+                .param("wardSourceId", "1")
+                .param("wardDestId", "2"))
                 .andExpect(status().isOk());
     }
 
@@ -152,15 +131,8 @@ public class PeopleDataBaseControllerTest {
         People people = new People();
         peopleRepository.save(people);
 
-        Map<String, String> bodyMap = new HashMap<>() {{
-            put("peopleId", "1");
-        }};
-
-        JSONObject bodyJSON = new JSONObject(bodyMap);
-
         mockMvc.perform(delete("/api/people/delete")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(bodyJSON.toString()))
+                .param("peopleId", "1"))
                 .andExpect(status().isOk());
 
     }

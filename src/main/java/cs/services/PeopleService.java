@@ -48,24 +48,7 @@ public class PeopleService {
         }));
     }
 
-    public void saveByIds(String peopleJsonString) throws JsonProcessingException, NoSuchEntryException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonRoot = objectMapper.readTree(peopleJsonString);
-
-        Map<String, JsonNode> stringJsonNodeMap = mapJsonPropertiesToJsonNodeList(jsonRoot, new String[]{
-                "firstName",
-                "lastName",
-                "patherName",
-                "wardId",
-                "diagnosisId"
-        });
-
-        String firstName = stringJsonNodeMap.get("firstName").asText();
-        String lastName = stringJsonNodeMap.get("lastName").asText();
-        String patherName = stringJsonNodeMap.get("patherName").asText();
-        Integer wardId = stringJsonNodeMap.get("wardId").asInt();
-        Integer diagnosisId = stringJsonNodeMap.get("diagnosisId").asInt();
-
+    public void saveByIds(String firstName, String lastName, String patherName, Integer wardId, Integer diagnosisId) throws JsonProcessingException, NoSuchEntryException {
         Ward ward = wardService.getWardById(wardId);
         Diagnosis diagnosis = diagnosisService.getDiagnosisById(diagnosisId);
 
@@ -73,53 +56,21 @@ public class PeopleService {
         peopleRepository.save(people);
     }
 
-    public void patchPeopleWard(String peopleJsonString) throws JsonProcessingException, NoSuchEntryException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonRoot = objectMapper.readTree(peopleJsonString);
-
-        Map<String, JsonNode> stringJsonNodeMap = mapJsonPropertiesToJsonNodeList(jsonRoot, new String[] {
-                "peopleId",
-                "wardId"
-        });
-
-        Integer peopleId = stringJsonNodeMap.get("peopleId").asInt();
-        Integer wardId = stringJsonNodeMap.get("wardId").asInt();
-
+    public void patchPeopleWard(Integer peopleId, Integer wardId) throws NoSuchEntryException {
         People people = peopleRepository.findById(peopleId).get();
         Ward ward = wardService.getWardById(wardId);
 
         peopleRepository.updateWard(people, ward);
     }
 
-    public void patchPeopleWardAll(String wardSourceWardDestJson) throws JsonProcessingException, NoSuchEntryException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonRoot = objectMapper.readTree(wardSourceWardDestJson);
-
-        Map<String, JsonNode> stringJsonNodeMap = mapJsonPropertiesToJsonNodeList(jsonRoot, new String[] {
-                "wardSourceId",
-                "wardDestId"
-        });
-
-
-        Integer wardSourceId = stringJsonNodeMap.get("wardSourceId").asInt();
-        Integer wardDestId = stringJsonNodeMap.get("wardDestId").asInt();
-
+    public void patchPeopleWardAll(Integer wardSourceId, Integer wardDestId) throws NoSuchEntryException {
         Ward wardSource = wardService.getWardById(wardSourceId);
         Ward wardDest = wardService.getWardById(wardDestId);
 
         peopleRepository.updateWardAll(wardSource, wardDest);
     }
 
-    public void deletePeopleById(String peopleIdJson) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonRoot = objectMapper.readTree(peopleIdJson);
-
-        Map<String, JsonNode> stringJsonNodeMap = mapJsonPropertiesToJsonNodeList(jsonRoot, new String[] {
-            "peopleId"
-        });
-
-        Integer peopleId = stringJsonNodeMap.get("peopleId").asInt();
-
+    public void deletePeopleById(Integer peopleId) {
         peopleRepository.deleteById(peopleId);
     }
 

@@ -36,27 +36,32 @@ public class PeopleDataBaseController {
     }
 
     @PostMapping("/save")
-    public String save(@RequestBody String peopleJsonString) throws JsonProcessingException, NoSuchEntryException {
-        peopleService.saveByIds(peopleJsonString);
+    public String save(@RequestParam String firstName,
+                       @RequestParam String lastName,
+                       @RequestParam String patherName,
+                       @RequestParam Integer wardId,
+                       @RequestParam Integer diagnosisId
+    ) throws JsonProcessingException, NoSuchEntryException {
+        peopleService.saveByIds(firstName, lastName, patherName, wardId, diagnosisId);
         return "Saved successfully";
     }
 
     @PatchMapping("/patchPeopleWard")
-    public String patchPeopleWard(@RequestBody String peopleJsonString) throws JsonProcessingException, NoSuchEntryException {
-        peopleService.patchPeopleWard(peopleJsonString);
+    public String patchPeopleWard(@RequestParam Integer peopleId, @RequestParam Integer wardId) throws JsonProcessingException, NoSuchEntryException {
+        peopleService.patchPeopleWard(peopleId, wardId);
         return "Patched successfully";
     }
 
     @PatchMapping("/moveAllPeopleFromWardTo")
-    public String patchPeopleWardAll(@RequestBody String wardSourceWardDestJson) throws NoSuchEntryException, JsonProcessingException {
-        peopleService.patchPeopleWardAll(wardSourceWardDestJson);
+    public String patchPeopleWardAll(@RequestParam Integer wardSourceId, @RequestParam Integer wardDestId) throws NoSuchEntryException, JsonProcessingException {
+        peopleService.patchPeopleWardAll(wardSourceId, wardDestId);
         return "Moved successfully";
     }
 
 
     @DeleteMapping("/delete")
-    public String deletePeopleById(@RequestBody String peopleIdJson) throws JsonProcessingException {
-        peopleService.deletePeopleById(peopleIdJson);
+    public String deletePeopleById(@RequestParam Integer peopleId) throws JsonProcessingException {
+        peopleService.deletePeopleById(peopleId);
         return "Deleted successfully";
     }
 
