@@ -31,7 +31,7 @@ public class PeopleDataBaseController {
     }
 
     @PostMapping("/save")
-    public String savePeopleWard(@RequestBody String peopleJsonString) throws JsonProcessingException {
+    public String savePeopleByWardIdAndDiagnosisId(@RequestBody String peopleJsonString) throws JsonProcessingException {
         peopleService.saveByIds(peopleJsonString);
         return "Saved successfully";
     }
