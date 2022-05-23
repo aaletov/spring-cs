@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,7 +43,7 @@ public class PeopleDataBaseControllerTest {
 
     @Test
     public void testGetPeople() throws Exception {
-        assertNotNull(peopleRepository.findPeopleById(6));
+        assertTrue(peopleRepository.findPeopleById(6).isPresent());
 
         mockMvc.perform(get("/api/people/6"))
                 .andExpect(status().isOk());
@@ -69,8 +70,8 @@ public class PeopleDataBaseControllerTest {
 
     @Test
     public void testPatchPeopleWard() throws Exception {
-        assertNotNull(peopleRepository.findPeopleById(1));
-        assertNotNull(wardRepository.findWardById(4));
+        assertTrue(peopleRepository.findPeopleById(1).isPresent());
+        assertTrue(wardRepository.findWardById(4).isPresent());
 
         Map<String, String> bodyMap = new HashMap<>() {{
             put("people_id", "1");
@@ -87,7 +88,7 @@ public class PeopleDataBaseControllerTest {
 
     @Test
     public void testDeletePeopleById() throws Exception {
-        assertNotNull(peopleRepository.findPeopleById(1));
+        assertTrue(peopleRepository.findPeopleById(1).isPresent());
 
         Map<String, String> bodyMap = new HashMap<>() {{
             put("people_id", "1");
