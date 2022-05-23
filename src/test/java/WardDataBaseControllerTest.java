@@ -99,6 +99,22 @@ public class WardDataBaseControllerTest {
     }
 
     @Test
+    public void testGetWardsForCountPeople() throws Exception {
+        Ward ward = new Ward();
+        ward.setMaxCount(3);
+        wardRepository.save(ward);
+
+        mockMvc.perform(get("/api/ward/getWardsForCountPeople")
+                        .param("count", "3"))
+                .andExpect((result -> {
+                    String content = result.getResponse().getContentAsString();
+                    List<Ward> wardList = Arrays.asList(objectMapper.readValue(content, Ward[].class));
+                    assertEquals(wardList.size(), 1);
+                }))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testSave() throws Exception {
         Map<String, String> bodyMap = new HashMap<>() {{
             put("peopleList", "[]");

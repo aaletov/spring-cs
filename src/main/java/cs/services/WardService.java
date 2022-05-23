@@ -34,6 +34,10 @@ public class WardService {
         return wardRepository.findEmptyWards();
     }
 
+    public Iterable<Ward> getWardsForCountPeople(Integer count) {
+        return wardRepository.findWardForCountPeople(Long.valueOf(count));
+    }
+
     public void save(Ward ward) {
         wardRepository.save(ward);
     }
