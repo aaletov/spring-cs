@@ -38,7 +38,16 @@ public class WardDataBaseControllerTest {
         wardRepository.save(ward);
 
 
-        mockMvc.perform(get("/api/ward/1"))
+        mockMvc.perform(get("/api/ward/get/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetAllWards() throws Exception {
+        Ward ward = new Ward();
+        wardRepository.save(ward);
+
+        mockMvc.perform(get("/api/ward/getAll"))
                 .andExpect(status().isOk());
     }
 

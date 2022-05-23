@@ -21,6 +21,10 @@ public class WardService {
         });
     }
 
+    public Iterable<Ward> getAll() {
+        return wardRepository.findAll();
+    }
+
     public void save(Ward ward) {
         wardRepository.save(ward);
     }

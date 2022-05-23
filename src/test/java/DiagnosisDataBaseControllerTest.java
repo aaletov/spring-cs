@@ -42,6 +42,15 @@ public class DiagnosisDataBaseControllerTest {
     }
 
     @Test
+    public void testGetAllDiagnoses() throws Exception {
+        Diagnosis diagnosis = new Diagnosis();
+        diagnosisRepository.save(diagnosis);
+
+        mockMvc.perform(get("/api/diagnosis/getAll"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testSave() throws Exception {
         Map<String, String> bodyMap = new HashMap<>() {{
             put("peopleList", "[]");
@@ -56,12 +65,4 @@ public class DiagnosisDataBaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testGetAllDiagnoses() throws Exception {
-        Diagnosis diagnosis = new Diagnosis();
-        diagnosisRepository.save(diagnosis);
-
-        mockMvc.perform(get("/api/diagnosis/getAll"))
-                .andExpect(status().isOk());
-    }
 }

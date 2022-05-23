@@ -24,9 +24,14 @@ public class WardDataBaseController {
         this.wardService = wardService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public Ward getWardById(@PathVariable Integer id) throws NoSuchEntryException {
         return wardService.getWardById(id);
+    }
+
+    @GetMapping("/getAll")
+    public Iterable<Ward> getAll() {
+        return wardService.getAll();
     }
 
     @PostMapping("/save")
