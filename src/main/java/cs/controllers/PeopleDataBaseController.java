@@ -1,6 +1,7 @@
 package cs.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import cs.apimodels.PeopleApiModel;
 import cs.exceptions.NoSuchEntryException;
 import cs.exceptions.NoSuchJsonPropertyException;
 import cs.models.People;
@@ -36,13 +37,8 @@ public class PeopleDataBaseController {
     }
 
     @PostMapping("/save")
-    public String save(@RequestParam String firstName,
-                       @RequestParam String lastName,
-                       @RequestParam String patherName,
-                       @RequestParam Integer wardId,
-                       @RequestParam Integer diagnosisId
-    ) throws JsonProcessingException, NoSuchEntryException {
-        peopleService.saveByIds(firstName, lastName, patherName, wardId, diagnosisId);
+    public String save(@RequestBody PeopleApiModel peopleApiModel) throws JsonProcessingException, NoSuchEntryException {
+        peopleService.save(peopleApiModel);
         return "Saved successfully";
     }
 

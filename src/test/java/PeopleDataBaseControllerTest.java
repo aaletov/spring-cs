@@ -76,12 +76,19 @@ public class PeopleDataBaseControllerTest {
         Ward ward = new Ward();
         wardRepository.save(ward);
 
+        Map<String, String> bodyMap = new HashMap<>() {{
+            put("firstName", "Igor");
+            put("lastName", "Usupov");
+            put("patherName", "Ilyich");
+            put("wardId", "1");
+            put("diagnosisId", "1");
+        }};
+
+        JSONObject bodyJSON = new JSONObject(bodyMap);
+
         mockMvc.perform(post("/api/people/save")
-                .param("firstName", "Igor")
-                .param("lastName", "Usupov")
-                .param("patherName", "Ilyich")
-                .param("wardId", "1")
-                .param("diagnosisId", "1"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(bodyJSON.toString()))
                 .andExpect(status().isOk());
 
     }

@@ -3,6 +3,7 @@ package cs.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cs.apimodels.PeopleApiModel;
 import cs.exceptions.NoSuchEntryException;
 import cs.exceptions.NoSuchJsonPropertyException;
 import cs.models.Diagnosis;
@@ -10,6 +11,7 @@ import cs.models.People;
 import cs.models.Ward;
 import cs.repos.PeopleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -48,11 +50,15 @@ public class PeopleService {
         }));
     }
 
-    public void saveByIds(String firstName, String lastName, String patherName, Integer wardId, Integer diagnosisId) throws JsonProcessingException, NoSuchEntryException {
-        Ward ward = wardService.getWardById(wardId);
-        Diagnosis diagnosis = diagnosisService.getDiagnosisById(diagnosisId);
+    public void save(PeopleApiModel peopleApiModel) throws JsonProcessingException, NoSuchEntryException {
+        Ward ward = wardService.getWardById(peopleApiModel.getWardId());
+        Diagnosis diagnosis = diagnosisService.getDiagnosisById(peopleApiModel.getDiagnosisId());
 
-        People people = new People(firstName, lastName, patherName, diagnosis, ward);
+        People people = new People(peopleApiModel.getFirstName(),
+                peopleApiModel.getLastName(),
+                peopleApiModel.getPatherName(),
+                diagnosis,
+                ward);
         peopleRepository.save(people);
     }
 
