@@ -34,6 +34,11 @@ public class WardDataBaseController {
         return wardService.getAll();
     }
 
+    @GetMapping("/getFullWards")
+    public Iterable<Ward> getFullWards() {
+        return wardService.getFullWards();
+    }
+
     @PostMapping("/save")
     public String save(@RequestBody Ward ward) {
         wardService.save(ward);

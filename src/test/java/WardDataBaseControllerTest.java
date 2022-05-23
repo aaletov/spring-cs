@@ -1,6 +1,8 @@
 import cs.Main;
 import cs.models.Diagnosis;
+import cs.models.People;
 import cs.models.Ward;
+import cs.repos.PeopleRepository;
 import cs.repos.WardRepository;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -32,6 +34,9 @@ public class WardDataBaseControllerTest {
     @Autowired
     WardRepository wardRepository;
 
+    @Autowired
+    PeopleRepository peopleRepository;
+
     @Test
     public void testGetWardById() throws Exception {
         Ward ward = new Ward();
@@ -48,6 +53,20 @@ public class WardDataBaseControllerTest {
         wardRepository.save(ward);
 
         mockMvc.perform(get("/api/ward/getAll"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetFullWards() throws Exception {
+        Ward ward = new Ward();
+        ward.setMaxCount(1);
+        wardRepository.save(ward);
+
+        People people = new People();
+        people.setWard(ward);
+        peopleRepository.save(people);
+
+        mockMvc.perform(get("/api/ward/getFullWards"))
                 .andExpect(status().isOk());
     }
 

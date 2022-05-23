@@ -25,6 +25,10 @@ public class WardService {
         return wardRepository.findAll();
     }
 
+    public Iterable<Ward> getFullWards() {
+        return wardRepository.findFullWards();
+    }
+
     public void save(Ward ward) {
         wardRepository.save(ward);
     }

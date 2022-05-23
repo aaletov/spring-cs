@@ -41,8 +41,5 @@ public interface PeopleRepository extends CrudRepository<People, Integer> {
     @Query("update People p set p.ward = :ward_dest where p.ward = :ward_source")
     void updateWardAll(@Param("ward_source") Ward wardSource, @Param("ward_dest") Ward wardDest);
 
-    @Query("select w from Ward w where w.maxCount = (select count(p.id) from People p where w = p.ward)")
-    Iterable<Ward> findFullWards();
-
     Optional<People> findPeopleById(Integer id);
 }
