@@ -36,7 +36,7 @@ public class PeopleDataBaseController {
     }
 
     @PostMapping("/save")
-    public String savePeopleByWardIdAndDiagnosisId(@RequestBody String peopleJsonString) throws JsonProcessingException {
+    public String save(@RequestBody String peopleJsonString) throws JsonProcessingException, NoSuchEntryException {
         peopleService.saveByIds(peopleJsonString);
         return "Saved successfully";
     }
@@ -46,6 +46,13 @@ public class PeopleDataBaseController {
         peopleService.patchPeopleWard(peopleJsonString);
         return "Patched successfully";
     }
+
+    @PatchMapping("/moveAllPeopleFromWardTo")
+    public String patchPeopleWardAll(@RequestBody String wardSourceWardDestJson) throws NoSuchEntryException, JsonProcessingException {
+        peopleService.patchPeopleWardAll(wardSourceWardDestJson);
+        return "Moved successfully";
+    }
+
 
     @DeleteMapping("/delete")
     public String deletePeopleById(@RequestBody String peopleIdJson) throws JsonProcessingException {

@@ -19,17 +19,6 @@ public interface PeopleRepository extends CrudRepository<People, Integer> {
     Iterable<People> findPeopleByWard(Ward ward);
     Optional<People> findPeopleByFirstName(String name);
     Iterable<People> findPeopleByWardName(String name);
-    @Modifying
-    @Transactional
-    @Query(value = "insert into people(first_name, last_name, pather_name, ward_id, diagnosis_id) " +
-            "values(:firstName,:lastName,:patherName,:wardId,:diagnosisId)", nativeQuery = true)
-    void saveByWardIdAndDiagnosisId(String firstName, String lastName, String patherName,
-                                    Integer wardId, Integer diagnosisId);
-
-    @Modifying
-    @Transactional
-    @Query(value = "update People set ward_id = :wardId where id = :peopleId", nativeQuery = true)
-    void updatePeopleByWardId(Integer peopleId, Integer wardId);
 
     @Modifying
     @Transactional

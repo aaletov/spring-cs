@@ -119,6 +119,35 @@ public class PeopleDataBaseControllerTest {
     }
 
     @Test
+    public void testPatchPeopleWardAll() throws Exception {
+        Ward ward = new Ward();
+        wardRepository.save(ward);
+
+        People people = new People();
+        people.setWard(ward);
+        peopleRepository.save(people);
+
+        people = new People();
+        people.setWard(ward);
+        peopleRepository.save(people);
+
+        ward = new Ward();
+        wardRepository.save(ward);
+
+        Map<String, String> bodyMap = new HashMap<>() {{
+            put("ward_source_id", "1");
+            put("ward_dest_id", "2");
+        }};
+
+        JSONObject bodyJSON = new JSONObject(bodyMap);
+
+        mockMvc.perform(patch("/api/people/moveAllPeopleFromWardTo")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(bodyJSON.toString()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testDeletePeopleById() throws Exception {
         People people = new People();
         peopleRepository.save(people);
