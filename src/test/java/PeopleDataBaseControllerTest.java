@@ -70,7 +70,7 @@ public class PeopleDataBaseControllerTest {
 
     @Test
     public void testPatchPeopleWard() throws Exception {
-        assertTrue(peopleRepository.findPeopleById(1).isPresent());
+        assertTrue(peopleRepository.findPeopleById(2).isPresent());
         assertTrue(wardRepository.findWardById(4).isPresent());
 
         Map<String, String> bodyMap = new HashMap<>() {{
