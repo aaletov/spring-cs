@@ -11,10 +11,8 @@ import javax.persistence.*;
 @Data
 @Entity
 public class People {
-
     @Id
-    @Column(columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull

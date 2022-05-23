@@ -3,6 +3,8 @@ package cs.models;
 import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,8 +15,7 @@ import java.util.List;
 public class Ward {
 
     @Id
-    @Column(columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
