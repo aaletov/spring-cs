@@ -17,8 +17,15 @@ public class PeopleApiModel {
     @NotNull
     private Integer diagnosisId;
 
-    @NotNull
     private Integer wardId;
 
     public PeopleApiModel() {}
+
+    public PeopleApiModel(String firstName, String lastName, String patherName, Integer diagnosisId, Integer wardId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patherName = patherName;
+        this.diagnosisId = diagnosisId;
+        this.wardId = wardId;
+    }
 }

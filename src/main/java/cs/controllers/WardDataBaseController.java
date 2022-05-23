@@ -2,6 +2,7 @@ package cs.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cs.exceptions.NoSuchEntryException;
+import cs.exceptions.NotNullForeignKeyException;
 import cs.models.Ward;
 import cs.services.WardService;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ public class WardDataBaseController {
 
     private WardService wardService;
 
-    @ExceptionHandler({ JsonProcessingException.class, NoSuchEntryException.class })
+    @ExceptionHandler({ JsonProcessingException.class, NoSuchEntryException.class, NotNullForeignKeyException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(JsonProcessingException e) {
         e.printStackTrace();
@@ -29,6 +30,11 @@ public class WardDataBaseController {
         return wardService.getWardById(id);
     }
 
+    @GetMapping("/getWardByName")
+    public Ward getWardByName(@RequestParam String name) throws NoSuchEntryException {
+        return wardService.getWardByName(name);
+    }
+
     @GetMapping("/getAll")
     public Iterable<Ward> getAll() {
         return wardService.getAll();
@@ -42,15 +48,16 @@ public class WardDataBaseController {
     @GetMapping("/getEmptyWards")
     public Iterable<Ward> getEmptyWards() { return wardService.getEmptyWards(); }
 
-    @GetMapping("/getWardsForCountPeople")
-    public Iterable<Ward> getWardsForCountPeople(@RequestParam Integer count) {
-        return wardService.getWardsForCountPeople(count);
-    }
-
     @PostMapping("/save")
     public String save(@RequestBody Ward ward) {
         wardService.save(ward);
         return "Saved successfully";
+    }
+
+    @DeleteMapping("/delete")
+    public String delete(@RequestParam Integer id) throws NotNullForeignKeyException {
+        wardService.delete(id);
+        return "Delete successfully";
     }
 
 }

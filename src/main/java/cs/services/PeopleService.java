@@ -36,6 +36,17 @@ public class PeopleService {
         });
     }
 
+    public People getPeopleByFullName(String firstName, String lastName, String patherName)
+            throws NoSuchEntryException {
+        return peopleRepository.findPeopleByFirstNameAndLastNameAndPatherName(firstName, lastName, patherName)
+                .orElseThrow(() -> {
+                    return new NoSuchEntryException("No People found with full name " +
+                            firstName + " " +
+                            lastName + " " +
+                            patherName);
+                });
+    }
+
     public Iterable<People> getAll() {
         return peopleRepository.findAll();
     }
@@ -60,6 +71,30 @@ public class PeopleService {
                 diagnosis,
                 ward);
         peopleRepository.save(people);
+    }
+
+    public void saveAll(List<PeopleApiModel> peopleApiModelList) {
+        List<People> peopleList = new ArrayList<>();
+
+        peopleApiModelList.forEach((peopleApiModel) -> {
+            Ward ward = null;
+            Diagnosis diagnosis = null;
+
+            try {
+                ward = wardService.getWardById(peopleApiModel.getWardId());
+                diagnosis = diagnosisService.getDiagnosisById(peopleApiModel.getDiagnosisId());
+            } catch (NoSuchEntryException e) {
+                e.printStackTrace();
+            }
+
+            peopleList.add(new People(peopleApiModel.getFirstName(),
+                    peopleApiModel.getLastName(),
+                    peopleApiModel.getPatherName(),
+                    diagnosis,
+                    ward));
+        });
+
+        peopleRepository.saveAll(peopleList);
     }
 
     public void patchPeopleWard(Integer peopleId, Integer wardId) throws NoSuchEntryException {

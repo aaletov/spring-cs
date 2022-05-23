@@ -56,6 +56,17 @@ public class WardDataBaseControllerTest {
     }
 
     @Test
+    public void testGetWardByName() throws Exception {
+        Ward ward = new Ward();
+        ward.setName("TestWard");
+        wardRepository.save(ward);
+
+        mockMvc.perform(get("/api/ward/getWardByName")
+                .param("name", "TestWard"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testGetAllWards() throws Exception {
         Ward ward = new Ward();
         wardRepository.save(ward);
@@ -99,22 +110,6 @@ public class WardDataBaseControllerTest {
     }
 
     @Test
-    public void testGetWardsForCountPeople() throws Exception {
-        Ward ward = new Ward();
-        ward.setMaxCount(3);
-        wardRepository.save(ward);
-
-        mockMvc.perform(get("/api/ward/getWardsForCountPeople")
-                        .param("count", "3"))
-                .andExpect((result -> {
-                    String content = result.getResponse().getContentAsString();
-                    List<Ward> wardList = Arrays.asList(objectMapper.readValue(content, Ward[].class));
-                    assertEquals(wardList.size(), 1);
-                }))
-                .andExpect(status().isOk());
-    }
-
-    @Test
     public void testSave() throws Exception {
         Map<String, String> bodyMap = new HashMap<>() {{
             put("peopleList", "[]");
@@ -129,4 +124,13 @@ public class WardDataBaseControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void testDelete() throws Exception {
+        Ward ward = new Ward();
+        wardRepository.save(ward);
+
+        mockMvc.perform(delete("/api/ward/delete")
+                .param("id", "1"))
+                .andExpect(status().isOk());
+    }
 }

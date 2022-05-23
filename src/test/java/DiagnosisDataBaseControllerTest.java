@@ -1,5 +1,7 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cs.Main;
 import cs.models.Diagnosis;
+import cs.models.Ward;
 import cs.repos.DiagnosisRepository;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -15,9 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -29,6 +30,9 @@ public class DiagnosisDataBaseControllerTest {
     MockMvc mockMvc;
 
     @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
     DiagnosisRepository diagnosisRepository;
 
     @Test
@@ -38,6 +42,17 @@ public class DiagnosisDataBaseControllerTest {
         diagnosisRepository.save(diagnosis);
 
         mockMvc.perform(get("/api/diagnosis/get/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetDiagnosisByName() throws Exception {
+        Diagnosis diagnosis = new Diagnosis();
+        diagnosis.setName("TestDiagnosis");
+        diagnosisRepository.save(diagnosis);
+
+        mockMvc.perform(get("/api/diagnosis/getDiagnosisByName")
+                .param("name", "TestDiagnosis"))
                 .andExpect(status().isOk());
     }
 
@@ -62,6 +77,16 @@ public class DiagnosisDataBaseControllerTest {
         mockMvc.perform(post("/api/diagnosis/save")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(bodyJSON.toString()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        Diagnosis diagnosis = new Diagnosis();
+        diagnosisRepository.save(diagnosis);
+
+        mockMvc.perform(delete("/api/diagnosis/delete")
+                .param("id", "1"))
                 .andExpect(status().isOk());
     }
 

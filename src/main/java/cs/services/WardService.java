@@ -1,6 +1,7 @@
 package cs.services;
 
 import cs.exceptions.NoSuchEntryException;
+import cs.exceptions.NotNullForeignKeyException;
 import cs.models.Ward;
 import cs.repos.WardRepository;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class WardService {
         });
     }
 
+    public Ward getWardByName(String name) throws  NoSuchEntryException {
+        return wardRepository.findWardByName(name).orElseThrow(() -> {
+            return new NoSuchEntryException("No such Ward with name " + name);
+        });
+    }
+
     public Iterable<Ward> getAll() {
         return wardRepository.findAll();
     }
@@ -34,15 +41,18 @@ public class WardService {
         return wardRepository.findEmptyWards();
     }
 
-    public Iterable<Ward> getWardsForCountPeople(Integer count) {
-        return wardRepository.findWardForCountPeople(Long.valueOf(count));
-    }
-
     public void save(Ward ward) {
         wardRepository.save(ward);
     }
 
     public boolean doesExistsWardById(Integer id) {
         return wardRepository.findWardById(id).isPresent();
+    }
+
+    public void delete(Integer wardId) {
+        if (wardRepository.findWardById(wardId).isEmpty()) {
+            throw new NotNullForeignKeyException("No such ward");
+        }
+        wardRepository.deleteById(wardId);
     }
 }

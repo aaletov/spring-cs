@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cs.Main;
+import cs.apimodels.PeopleApiModel;
 import cs.models.Diagnosis;
 import cs.models.People;
 import cs.models.Ward;
@@ -18,7 +19,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -60,6 +63,21 @@ public class PeopleDataBaseControllerTest {
     }
 
     @Test
+    public void testGetPeopleByFullName() throws Exception {
+        People people = new People();
+        people.setFirstName("Ivan");
+        people.setLastName("Ivanov");
+        people.setPatherName("Ivanovich");
+        peopleRepository.save(people);
+
+        mockMvc.perform(get("/api/people/getPeopleByFullName")
+                .param("firstName", "Ivan")
+                .param("lastName", "Ivanov")
+                .param("patherName", "Ivanovich"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testGetAllPeople() throws Exception {
         People people = new People();
         peopleRepository.save(people);
@@ -69,28 +87,45 @@ public class PeopleDataBaseControllerTest {
     }
 
     @Test
-    public void testSavePeopleByWardIdAndDiagnosisId() throws Exception {
+    public void testSave() throws Exception {
         Diagnosis diagnosis = new Diagnosis();
         diagnosisRepository.save(diagnosis);
 
         Ward ward = new Ward();
         wardRepository.save(ward);
 
-        Map<String, String> bodyMap = new HashMap<>() {{
-            put("firstName", "Igor");
-            put("lastName", "Usupov");
-            put("patherName", "Ilyich");
-            put("wardId", "1");
-            put("diagnosisId", "1");
-        }};
-
-        JSONObject bodyJSON = new JSONObject(bodyMap);
+        PeopleApiModel peopleApiModel = new PeopleApiModel("Igor", "Usupov", "Ilyich",
+                1, 1);
 
         mockMvc.perform(post("/api/people/save")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(bodyJSON.toString()))
+                .content(objectMapper.writeValueAsString(peopleApiModel)))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    public void testSaveAll() throws Exception {
+        Diagnosis diagnosis = new Diagnosis();
+        diagnosisRepository.save(diagnosis);
+
+        Ward ward = new Ward();
+        wardRepository.save(ward);
+
+        List<PeopleApiModel> apiModelList = new ArrayList<>();
+
+        apiModelList.add(
+                new PeopleApiModel("Igor", "Usupov", "Ilyich", 1, 1)
+        );
+
+        apiModelList.add(
+                new PeopleApiModel("Ivan", "Jackov", "Jackovich", 1, 1)
+        );
+
+        mockMvc.perform(post("/api/people/saveAll")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(apiModelList)))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -127,7 +162,7 @@ public class PeopleDataBaseControllerTest {
         ward = new Ward();
         wardRepository.save(ward);
 
-        mockMvc.perform(patch("/api/people/moveAllPeopleFromWardTo")
+        mockMvc.perform(patch("/api/people/moveAllPeopleFromWardToWard")
                 .param("wardSourceId", "1")
                 .param("wardDestId", "2"))
                 .andExpect(status().isOk());

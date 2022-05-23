@@ -9,6 +9,8 @@ import cs.services.PeopleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/people")
 public class PeopleDataBaseController {
@@ -31,6 +33,14 @@ public class PeopleDataBaseController {
         return peopleService.getPeopleById(id);
     }
 
+    @GetMapping("/getPeopleByFullName")
+    public People getPeopleByFullName(@RequestParam String firstName,
+                                      @RequestParam String lastName,
+                                      @RequestParam String patherName)
+            throws NoSuchEntryException {
+        return peopleService.getPeopleByFullName(firstName, lastName, patherName);
+    }
+
     @GetMapping("/getAll")
     public Iterable<People> getAll() {
         return peopleService.getAll();
@@ -42,21 +52,26 @@ public class PeopleDataBaseController {
         return "Saved successfully";
     }
 
+    @PostMapping("/saveAll")
+    public String saveAll(@RequestBody List<PeopleApiModel> peopleApiModelList) {
+        peopleService.saveAll(peopleApiModelList);
+        return "Saved successfully";
+    }
+
     @PatchMapping("/patchPeopleWard")
     public String patchPeopleWard(@RequestParam Integer peopleId, @RequestParam Integer wardId) throws JsonProcessingException, NoSuchEntryException {
         peopleService.patchPeopleWard(peopleId, wardId);
         return "Patched successfully";
     }
 
-    @PatchMapping("/moveAllPeopleFromWardTo")
+    @PatchMapping("/moveAllPeopleFromWardToWard")
     public String patchPeopleWardAll(@RequestParam Integer wardSourceId, @RequestParam Integer wardDestId) throws NoSuchEntryException, JsonProcessingException {
         peopleService.patchPeopleWardAll(wardSourceId, wardDestId);
         return "Moved successfully";
     }
 
-
     @DeleteMapping("/delete")
-    public String deletePeopleById(@RequestParam Integer peopleId) throws JsonProcessingException {
+    public String deletePeopleById(@RequestParam Integer peopleId) {
         peopleService.deletePeopleById(peopleId);
         return "Deleted successfully";
     }

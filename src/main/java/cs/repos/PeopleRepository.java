@@ -18,6 +18,8 @@ public interface PeopleRepository extends CrudRepository<People, Integer> {
     Iterable<People> findPeopleByDiagnosis(Diagnosis diagnosis);
     Iterable<People> findPeopleByWard(Ward ward);
     Optional<People> findPeopleByFirstName(String name);
+    Optional<People> findPeopleByFirstNameAndLastNameAndPatherName(String firstName, String lastName,
+                                                                   String patherName);
     Iterable<People> findPeopleByWardName(String name);
     @Modifying
     @Transactional
