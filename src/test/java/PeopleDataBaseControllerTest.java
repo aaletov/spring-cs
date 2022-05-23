@@ -55,7 +55,16 @@ public class PeopleDataBaseControllerTest {
         People people = new People();
         peopleRepository.save(people);
 
-        mockMvc.perform(get("/api/people/1"))
+        mockMvc.perform(get("/api/people/get/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetAllPeople() throws Exception {
+        People people = new People();
+        peopleRepository.save(people);
+
+        mockMvc.perform(get("/api/people/getAll"))
                 .andExpect(status().isOk());
     }
 

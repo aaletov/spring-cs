@@ -32,6 +32,10 @@ public class PeopleService {
         });
     }
 
+    public Iterable<People> getAll() {
+        return peopleRepository.findAll();
+    }
+
     Map<String, JsonNode> mapJsonPropertiesToJsonNodeList(JsonNode jsonNode, String[] jsonProperties) {
         return Arrays.stream(jsonProperties).collect(Collectors.toMap((property) -> property, (property) -> {
             JsonNode childJsonNode = jsonNode.get(property);

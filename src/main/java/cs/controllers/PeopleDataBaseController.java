@@ -25,9 +25,14 @@ public class PeopleDataBaseController {
         this.peopleService = peopleService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public People getPeopleById(@PathVariable Integer id) throws NoSuchEntryException {
         return peopleService.getPeopleById(id);
+    }
+
+    @GetMapping("/getAll")
+    public Iterable<People> getAll() {
+        return peopleService.getAll();
     }
 
     @PostMapping("/save")
