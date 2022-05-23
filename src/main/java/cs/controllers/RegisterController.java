@@ -34,7 +34,7 @@ public class RegisterController {
     public String processRegistration(RegistrationForm form) {
         MyUser user = form.toMyUser(passwordEncoder);
         userRepo.save(user);
-        authRepo.save(new Authority("USER", user.getUsername(), user));
+        authRepo.save(new Authority("USER", user.getUsername()));
         return "redirect:/login";
     }
 }

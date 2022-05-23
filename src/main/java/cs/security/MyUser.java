@@ -15,15 +15,14 @@ import java.util.Collection;
 
 @Entity
 @Data
-@Table(name = "Users")
-@NoArgsConstructor(access=AccessLevel.PRIVATE, force=true)
+@Table(name = "users")
+@NoArgsConstructor(access=AccessLevel.PUBLIC, force=true)
 @RequiredArgsConstructor
 public class MyUser implements UserDetails {
 
     @Id
     @NotNull
-    @Column(columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

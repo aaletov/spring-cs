@@ -16,8 +16,7 @@ public class Authority {
 
     @Id
     @NotNull
-    @Column(columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -26,13 +25,9 @@ public class Authority {
     @NotNull
     private String username;
 
-    @Column(name = "users_username")
-    private MyUser user;
-
-    public Authority(String authority, String username, MyUser user) {
+    public Authority(String authority, String username) {
         this.authority = authority;
         this.username = username;
-        this.user = user;
     }
 
 }
