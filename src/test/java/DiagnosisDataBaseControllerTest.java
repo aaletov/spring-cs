@@ -37,7 +37,7 @@ public class DiagnosisDataBaseControllerTest {
         diagnosis.setName("TestDiagnosis");
         diagnosisRepository.save(diagnosis);
 
-        mockMvc.perform(get("/api/diagnosis/1"))
+        mockMvc.perform(get("/api/diagnosis/get/1"))
                 .andExpect(status().isOk());
     }
 
@@ -53,6 +53,15 @@ public class DiagnosisDataBaseControllerTest {
         mockMvc.perform(post("/api/diagnosis/save")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(bodyJSON.toString()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetAllDiagnoses() throws Exception {
+        Diagnosis diagnosis = new Diagnosis();
+        diagnosisRepository.save(diagnosis);
+
+        mockMvc.perform(get("/api/diagnosis/getAll"))
                 .andExpect(status().isOk());
     }
 }

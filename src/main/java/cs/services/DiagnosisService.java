@@ -5,6 +5,8 @@ import cs.models.Diagnosis;
 import cs.repos.DiagnosisRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DiagnosisService {
 
@@ -22,6 +24,10 @@ public class DiagnosisService {
 
     public void save(Diagnosis diagnosis) {
         diagnosisRepository.save(diagnosis);
+    }
+
+    public Iterable<Diagnosis> getAllDiagnoses() {
+        return diagnosisRepository.findAll();
     }
 
     public boolean doesExistsDiagnosisById(Integer id) {

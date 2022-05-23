@@ -7,6 +7,8 @@ import cs.services.DiagnosisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/diagnosis")
 public class DiagnosisDataBaseController {
@@ -24,9 +26,14 @@ public class DiagnosisDataBaseController {
         this.diagnosisService = diagnosisService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public Diagnosis getDiagnosisById(@PathVariable Integer id) throws NoSuchEntryException {
         return diagnosisService.getDiagnosisById(id);
+    }
+
+    @GetMapping("/getAll")
+    public Iterable<Diagnosis> getAllDiagnoses() {
+        return diagnosisService.getAllDiagnoses();
     }
 
     @PostMapping(value = "/save")
