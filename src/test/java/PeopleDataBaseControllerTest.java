@@ -80,8 +80,8 @@ public class PeopleDataBaseControllerTest {
            put("firstName", "Igor");
            put("lastName", "Usupov");
            put("patherName", "Ilyich");
-           put("ward_id", "1");
-           put("diagnosis_id", "1");
+           put("wardId", "1");
+           put("diagnosisId", "1");
         }};
 
         JSONObject bodyJSON = new JSONObject(bodyMap);
@@ -106,8 +106,8 @@ public class PeopleDataBaseControllerTest {
         wardRepository.save(ward);
 
         Map<String, String> bodyMap = new HashMap<>() {{
-            put("people_id", "1");
-            put("ward_id", "2");
+            put("peopleId", "1");
+            put("wardId", "2");
         }};
 
         JSONObject bodyJSON = new JSONObject(bodyMap);
@@ -135,8 +135,8 @@ public class PeopleDataBaseControllerTest {
         wardRepository.save(ward);
 
         Map<String, String> bodyMap = new HashMap<>() {{
-            put("ward_source_id", "1");
-            put("ward_dest_id", "2");
+            put("wardSourceId", "1");
+            put("wardDestId", "2");
         }};
 
         JSONObject bodyJSON = new JSONObject(bodyMap);
@@ -153,7 +153,7 @@ public class PeopleDataBaseControllerTest {
         peopleRepository.save(people);
 
         Map<String, String> bodyMap = new HashMap<>() {{
-            put("people_id", "1");
+            put("peopleId", "1");
         }};
 
         JSONObject bodyJSON = new JSONObject(bodyMap);

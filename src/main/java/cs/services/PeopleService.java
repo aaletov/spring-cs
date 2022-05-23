@@ -56,15 +56,15 @@ public class PeopleService {
                 "firstName",
                 "lastName",
                 "patherName",
-                "ward_id",
-                "diagnosis_id"
+                "wardId",
+                "diagnosisId"
         });
 
         String firstName = stringJsonNodeMap.get("firstName").asText();
         String lastName = stringJsonNodeMap.get("lastName").asText();
         String patherName = stringJsonNodeMap.get("patherName").asText();
-        Integer wardId = stringJsonNodeMap.get("ward_id").asInt();
-        Integer diagnosisId = stringJsonNodeMap.get("diagnosis_id").asInt();
+        Integer wardId = stringJsonNodeMap.get("wardId").asInt();
+        Integer diagnosisId = stringJsonNodeMap.get("diagnosisId").asInt();
 
         Ward ward = wardService.getWardById(wardId);
         Diagnosis diagnosis = diagnosisService.getDiagnosisById(diagnosisId);
@@ -78,12 +78,12 @@ public class PeopleService {
         JsonNode jsonRoot = objectMapper.readTree(peopleJsonString);
 
         Map<String, JsonNode> stringJsonNodeMap = mapJsonPropertiesToJsonNodeList(jsonRoot, new String[] {
-                "people_id",
-                "ward_id"
+                "peopleId",
+                "wardId"
         });
 
-        Integer peopleId = stringJsonNodeMap.get("people_id").asInt();
-        Integer wardId = stringJsonNodeMap.get("ward_id").asInt();
+        Integer peopleId = stringJsonNodeMap.get("peopleId").asInt();
+        Integer wardId = stringJsonNodeMap.get("wardId").asInt();
 
         People people = peopleRepository.findById(peopleId).get();
         Ward ward = wardService.getWardById(wardId);
@@ -96,13 +96,13 @@ public class PeopleService {
         JsonNode jsonRoot = objectMapper.readTree(wardSourceWardDestJson);
 
         Map<String, JsonNode> stringJsonNodeMap = mapJsonPropertiesToJsonNodeList(jsonRoot, new String[] {
-                "ward_source_id",
-                "ward_dest_id"
+                "wardSourceId",
+                "wardDestId"
         });
 
 
-        Integer wardSourceId = stringJsonNodeMap.get("ward_source_id").asInt();
-        Integer wardDestId = stringJsonNodeMap.get("ward_dest_id").asInt();
+        Integer wardSourceId = stringJsonNodeMap.get("wardSourceId").asInt();
+        Integer wardDestId = stringJsonNodeMap.get("wardDestId").asInt();
 
         Ward wardSource = wardService.getWardById(wardSourceId);
         Ward wardDest = wardService.getWardById(wardDestId);
@@ -115,10 +115,10 @@ public class PeopleService {
         JsonNode jsonRoot = objectMapper.readTree(peopleIdJson);
 
         Map<String, JsonNode> stringJsonNodeMap = mapJsonPropertiesToJsonNodeList(jsonRoot, new String[] {
-            "people_id"
+            "peopleId"
         });
 
-        Integer peopleId = stringJsonNodeMap.get("people_id").asInt();
+        Integer peopleId = stringJsonNodeMap.get("peopleId").asInt();
 
         peopleRepository.deleteById(peopleId);
     }
