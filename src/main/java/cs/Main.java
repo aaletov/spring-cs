@@ -28,6 +28,7 @@ public class Main {
         this.peopleRepository = peopleRepository;
         this.wardRepository = wardRepository;
     }
+
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
