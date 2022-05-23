@@ -1,4 +1,6 @@
 import cs.Main;
+import cs.models.Diagnosis;
+import cs.models.Ward;
 import cs.repos.WardRepository;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -32,7 +34,9 @@ public class WardDataBaseControllerTest {
 
     @Test
     public void testGetWardById() throws Exception {
-        assertTrue(wardRepository.findWardById(1).isPresent());
+        Ward ward = new Ward();
+        wardRepository.save(ward);
+
 
         mockMvc.perform(get("/api/ward/1"))
                 .andExpect(status().isOk());

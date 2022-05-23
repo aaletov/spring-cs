@@ -1,5 +1,9 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cs.Main;
+import cs.models.Diagnosis;
+import cs.models.People;
+import cs.models.Ward;
+import cs.repos.DiagnosisRepository;
 import cs.repos.PeopleRepository;
 import cs.repos.WardRepository;
 import org.json.JSONObject;
@@ -9,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +32,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PeopleDataBaseControllerTest {
 
     @Autowired
@@ -41,16 +47,26 @@ public class PeopleDataBaseControllerTest {
     @Autowired
     WardRepository wardRepository;
 
+    @Autowired
+    DiagnosisRepository diagnosisRepository;
+
     @Test
     public void testGetPeople() throws Exception {
-        assertTrue(peopleRepository.findPeopleById(6).isPresent());
+        People people = new People();
+        peopleRepository.save(people);
 
-        mockMvc.perform(get("/api/people/6"))
+        mockMvc.perform(get("/api/people/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testSavePeopleByWardIdAndDiagnosisId() throws Exception {
+        Diagnosis diagnosis = new Diagnosis();
+        diagnosisRepository.save(diagnosis);
+
+        Ward ward = new Ward();
+        wardRepository.save(ward);
+
         Map<String, String> bodyMap = new HashMap<>() {{
            put("firstName", "Igor");
            put("lastName", "Usupov");
@@ -70,12 +86,19 @@ public class PeopleDataBaseControllerTest {
 
     @Test
     public void testPatchPeopleWard() throws Exception {
-        assertTrue(peopleRepository.findPeopleById(2).isPresent());
-        assertTrue(wardRepository.findWardById(4).isPresent());
+        Ward ward = new Ward();
+        wardRepository.save(ward);
+
+        People people = new People();
+        people.setWard(ward);
+        peopleRepository.save(people);
+
+        ward = new Ward();
+        wardRepository.save(ward);
 
         Map<String, String> bodyMap = new HashMap<>() {{
             put("people_id", "1");
-            put("ward_id", "4");
+            put("ward_id", "2");
         }};
 
         JSONObject bodyJSON = new JSONObject(bodyMap);
@@ -88,7 +111,8 @@ public class PeopleDataBaseControllerTest {
 
     @Test
     public void testDeletePeopleById() throws Exception {
-        assertTrue(peopleRepository.findPeopleById(1).isPresent());
+        People people = new People();
+        peopleRepository.save(people);
 
         Map<String, String> bodyMap = new HashMap<>() {{
             put("people_id", "1");
