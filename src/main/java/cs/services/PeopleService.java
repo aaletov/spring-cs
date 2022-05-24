@@ -61,7 +61,11 @@ public class PeopleService {
         }));
     }
 
-    public void save(PeopleApiModel peopleApiModel) throws JsonProcessingException, NoSuchEntryException {
+    public void save(People people) {
+        peopleRepository.save(people);
+    }
+
+    public void saveApiModel(PeopleApiModel peopleApiModel) throws JsonProcessingException, NoSuchEntryException {
         Ward ward = wardService.getWardById(peopleApiModel.getWardId());
         Diagnosis diagnosis = diagnosisService.getDiagnosisById(peopleApiModel.getDiagnosisId());
 
@@ -114,5 +118,7 @@ public class PeopleService {
     public void deletePeopleById(Integer peopleId) {
         peopleRepository.deleteById(peopleId);
     }
+
+    public void delete(People people) {peopleRepository.delete(people); }
 
 }
