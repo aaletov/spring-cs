@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
@@ -57,12 +59,41 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .csrf()
             .disable()
             .authorizeRequests()
+            .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
             .antMatchers("/api/**/get/**", "/api/**/get**", "/register", "/home", "/")
             .permitAll()
             .antMatchers("/**").hasAnyAuthority("USER", "ROOT")
             .and()
             .formLogin()
+                .defaultSuccessUrl("/")
             .permitAll();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(
+        // Vaadin Flow static resources // (1)
+        "/VAADIN/**",
+
+        // the standard favicon URI
+        "/favicon.ico",
+
+        // the robots exclusion standard
+        "/robots.txt",
+
+        // web application manifest // (2)
+        "/manifest.webmanifest",
+        "/sw.js",
+        "/offline-page.html",
+
+        // (development mode) static resources // (3)
+        "/frontend/**",
+
+        // (development mode) webjars // (3)
+        "/webjars/**",
+
+        // (production mode) static resources // (4)
+        "/frontend-es5/**", "/frontend-es6/**");
     }
 
     @Bean

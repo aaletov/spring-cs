@@ -1,4 +1,4 @@
-package cs;
+package cs.views;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

@@ -149,6 +149,18 @@
             <artifactId>vaadin-spring-boot-starter</artifactId>
             <version>23.0.9</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jodd/jodd-http -->
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-http</artifactId>
+            <version>6.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+            <version>8.3.3</version>
+        </dependency>
+
     </dependencies>
     <!-- Inherit defaults from Spring Boot -->
     <parent>
