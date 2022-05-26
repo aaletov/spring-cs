@@ -65,7 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/**").hasAnyAuthority("USER", "ROOT")
             .and()
             .formLogin()
-                .defaultSuccessUrl("/")
+                .loginPage("/login")
             .permitAll();
     }
 

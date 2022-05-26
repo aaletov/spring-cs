@@ -49,8 +49,7 @@ public class RegisterView extends VerticalLayout {
 
 
         button.addClickListener((e) -> {
-            System.out.println("Clicked");
-            UI.getCurrent().navigate("/");
+            UI.getCurrent().navigate("/login");
             service.processRegistration(username.getValue(), password.getValue());
         });
     }
