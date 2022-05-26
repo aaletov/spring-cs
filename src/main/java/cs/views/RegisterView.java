@@ -25,7 +25,7 @@ public class RegisterView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         VerticalLayout inner = new VerticalLayout();
-        inner.add(new Label("Login"));
+        inner.add(new Label("Register"));
         inner.setSizeUndefined();
         add(inner);
 
