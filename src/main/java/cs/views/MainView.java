@@ -1,6 +1,7 @@
 package cs.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
@@ -8,7 +9,9 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.spring.annotation.SpringComponent;
+import cs.events.PeopleChangeEvent;
 import cs.services.DiagnosisService;
 import cs.services.PeopleService;
 import cs.services.WardService;
@@ -19,7 +22,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
 
-@Configuration
 @SpringComponent
 @Route("")
 public class MainView extends AppLayout {
@@ -27,7 +29,6 @@ public class MainView extends AppLayout {
     private DiagnosisService diagnosisService;
     private WardService wardService;
     private PeopleView peopleView;
-    private EventComponent eventComponent;
     private ApplicationContext applicationContext;
 
     private Tabs tabs;
@@ -35,22 +36,13 @@ public class MainView extends AppLayout {
 
     private LinkedHashMap<Tab, Component> tabComponentMap;
 
-    @Bean
-    public EventComponent getEventComponent() {
-        return eventComponent;
-    }
-
     public MainView(@Autowired PeopleService peopleService,
                     @Autowired DiagnosisService diagnosisService,
                     @Autowired WardService wardService,
-                    //@Autowired PeopleView peopleView,
-                    //@Autowired EventComponent eventComponent,
                     @Autowired ApplicationContext applicationContext) {
         this.peopleService = peopleService;
         this.diagnosisService = diagnosisService;
         this.wardService = wardService;
-        //this.peopleView = peopleView;
-        this.eventComponent = new EventComponent();
         this.applicationContext = applicationContext;
 
         addAttachListener((e) -> {
@@ -63,8 +55,6 @@ public class MainView extends AppLayout {
                 updateTab(event);
             });
         });
-
-        this.addToNavbar(eventComponent);
     }
 
     private void createChilds() {
@@ -93,5 +83,13 @@ public class MainView extends AppLayout {
     public void updateTab(Tabs.SelectedChangeEvent e) {
         Component component = tabComponentMap.get(e.getSelectedTab());
         setContent(component);
+    }
+
+    public Registration addPeopleChangeEventListener(ComponentEventListener<PeopleChangeEvent> listener) {
+        return addListener(PeopleChangeEvent.class, listener);
+    }
+
+    public void firePeopleChangeEvent() {
+        fireEvent(new PeopleChangeEvent(this, false));
     }
 }

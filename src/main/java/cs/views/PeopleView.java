@@ -18,7 +18,7 @@ import java.util.List;
 @SpringComponent
 @Scope("prototype")
 public class PeopleView extends VerticalLayout {
-    private EventComponent eventComponent;
+    private MainView mainView;
     private PeopleSideLayout sideLayout;
     private PeopleService peopleService;
     private DiagnosisService diagnosisService;
@@ -31,18 +31,20 @@ public class PeopleView extends VerticalLayout {
                @Autowired PeopleService peopleService,
                @Autowired DiagnosisService diagnosisService,
                @Autowired WardService wardService,
-               @Autowired EventComponent eventComponent) {
+               @Autowired MainView mainView) {
         this.sideLayout = sideLayout;
         this.peopleService = peopleService;
         this.diagnosisService = diagnosisService;
         this.wardService = wardService;
-        this.eventComponent = eventComponent;
+        this.mainView = mainView;
 
         addClassName("list-view");
         setSizeFull();
         createChilds();
 
         add(content);
+
+        mainView.addPeopleChangeEventListener((e) -> updateGrid());
     }
 
     private void createChilds() {
@@ -70,8 +72,9 @@ public class PeopleView extends VerticalLayout {
         grid.addComponentColumn(people -> {
             Button button = new Button("Delete");
             button.addClickListener((e) -> {
+                System.out.println("Listener in PeopleView invoked");
                 peopleService.delete(people);
-                eventComponent.firePeopleChangeEvent();
+                mainView.firePeopleChangeEvent();
             });
             return button;
         }).setHeader("");
@@ -80,7 +83,7 @@ public class PeopleView extends VerticalLayout {
         updateGrid();
     }
 
-    private void updateGrid() {
+    public void updateGrid() {
         grid.setItems((List<People>) peopleService.getAll());
     }
 }

@@ -14,15 +14,15 @@ import java.util.List;
 @SpringComponent
 @Scope("prototype")
 public class PeopleGrid extends Grid<People> {
-    private EventComponent eventComponent;
+    private MainView mainView;
     private PeopleService peopleService;
 
     public PeopleGrid(@Autowired PeopleService peopleService,
-                      @Autowired EventComponent eventComponent) {
+                      @Autowired MainView mainView) {
         super(People.class);
 
         this.peopleService = peopleService;
-        this.eventComponent = eventComponent;
+        this.mainView = mainView;
 
         addClassNames("contact-grid");
         setSizeFull();
@@ -35,7 +35,7 @@ public class PeopleGrid extends Grid<People> {
             Button button = new Button("Delete");
             button.addClickListener((e) -> {
                 peopleService.delete(people);
-                eventComponent.firePeopleChangeEvent();
+                mainView.firePeopleChangeEvent();
             });
             return button;
         }).setHeader("");
@@ -46,7 +46,7 @@ public class PeopleGrid extends Grid<People> {
             updateGrid();
         });
 
-        eventComponent.addPeopleChangeEventListener((e) -> {
+        mainView.addPeopleChangeEventListener((e) -> {
             System.out.println("Event happened");
             updateGrid();
         });

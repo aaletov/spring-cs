@@ -24,7 +24,7 @@ import java.util.List;
 @SpringComponent
 @Scope("prototype")
 public class PeopleForm extends FormLayout {
-    private EventComponent eventComponent;
+    private MainView mainView;
     private TextField firstName;
     private TextField lastName;
     private TextField patherName;
@@ -39,11 +39,11 @@ public class PeopleForm extends FormLayout {
     public PeopleForm(@Autowired PeopleService peopleService,
                       @Autowired WardService wardService,
                       @Autowired DiagnosisService diagnosisService,
-                      @Autowired EventComponent eventComponent) {
+                      @Autowired MainView mainView) {
         this.peopleService = peopleService;
         this.wardService = wardService;
         this.diagnosisService = diagnosisService;
-        this.eventComponent = eventComponent;
+        this.mainView = mainView;
 
         save = new Button("Save");
 
@@ -59,7 +59,7 @@ public class PeopleForm extends FormLayout {
                 ward,
                 createButtonsLayout());
 
-        eventComponent.addPeopleChangeEventListener((e) -> {
+        mainView.addPeopleChangeEventListener((e) -> {
             updateComboBoxes();
         });
     }
@@ -146,7 +146,7 @@ public class PeopleForm extends FormLayout {
                 People people = getPeople();
                 peopleService.save(people);
 
-                eventComponent.firePeopleChangeEvent();
+                mainView.firePeopleChangeEvent();
             } catch (EmptyFieldException err) {
                 System.out.println("Caught exception");
                 return;

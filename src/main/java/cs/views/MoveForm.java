@@ -19,7 +19,7 @@ import java.util.List;
 @SpringComponent
 @Scope("prototype")
 public class MoveForm extends FormLayout {
-    private EventComponent eventComponent;
+    private MainView mainView;
     private PeopleService peopleService;
     private WardService wardService;
 
@@ -29,10 +29,10 @@ public class MoveForm extends FormLayout {
 
     MoveForm(@Autowired PeopleService peopleService,
              @Autowired WardService wardService,
-             @Autowired EventComponent eventComponent) {
+             @Autowired MainView mainView) {
         this.peopleService = peopleService;
         this.wardService = wardService;
-        this.eventComponent = eventComponent;
+        this.mainView = mainView;
 
         configureFields();
         configureButtons();
@@ -43,7 +43,7 @@ public class MoveForm extends FormLayout {
                 moveButton
         );
 
-        eventComponent.addPeopleChangeEventListener((e) -> updateComboBoxes());
+        mainView.addPeopleChangeEventListener((e) -> updateComboBoxes());
     }
 
     private void configureFields() {
@@ -74,7 +74,7 @@ public class MoveForm extends FormLayout {
         moveButton.addClickListener((e) -> {
             try {
                 movePerson();
-                eventComponent.firePeopleChangeEvent();
+                mainView.firePeopleChangeEvent();
             } catch (EmptyFieldException err) {
                 System.out.println("Caught exception");
                 return;
