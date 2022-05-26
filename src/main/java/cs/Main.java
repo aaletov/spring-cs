@@ -7,6 +7,8 @@ import cs.models.Ward;
 import cs.repos.DiagnosisRepository;
 import cs.repos.PeopleRepository;
 import cs.repos.WardRepository;
+import cs.views.MainView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,16 +27,7 @@ import java.util.Arrays;
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 public class Main {
-
-    private final DiagnosisRepository diagnosisRepository;
-    private final PeopleRepository peopleRepository;
-    private final WardRepository wardRepository;
-
-    public Main(DiagnosisRepository diagnosisRepository, PeopleRepository peopleRepository, WardRepository wardRepository) {
-        this.diagnosisRepository = diagnosisRepository;
-        this.peopleRepository = peopleRepository;
-        this.wardRepository = wardRepository;
-    }
+    public Main() {}
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);

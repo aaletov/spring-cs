@@ -16,6 +16,7 @@ import cs.security.MyUser;
 import cs.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 @Route("register")
 public class RegisterView extends VerticalLayout {
@@ -25,9 +26,14 @@ public class RegisterView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         VerticalLayout inner = new VerticalLayout();
-        inner.add(new Label("Register"));
-        inner.setSizeUndefined();
         add(inner);
+
+        inner.setSizeUndefined();
+
+        Label label = new Label("Register");
+        label.getStyle()
+            .set("font-size", "var(--lumo-font-size-xx1)");
+        inner.add(label);
 
         TextField username = new TextField("Username");
         PasswordField password = new PasswordField("Password");
