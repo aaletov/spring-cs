@@ -4,16 +4,20 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import cs.exceptions.EmptyFieldException;
 import cs.models.Ward;
 import cs.services.WardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Scope;
 
+@DependsOn("mainView")
 @SpringComponent
+@Scope("prototype")
 public class WardForm extends FormLayout {
     private MainView mainView;
     private TextField wardName;
@@ -38,14 +42,14 @@ public class WardForm extends FormLayout {
     public void createChilds() {
         save = new Button("Save");
         save.addClickListener((e) -> {
-           try {
-               Ward ward = getWard();
-               wardService.save(ward);
-               mainView.fireWardChangeEvent();
-           } catch (EmptyFieldException err) {
-               System.out.println("Caught exception");
-               return;
-           }
+            try {
+                Ward ward = getWard();
+                wardService.save(ward);
+                mainView.fireWardChangeEvent();;
+            } catch (EmptyFieldException err) {
+                System.out.println("Caught exception");
+                return;
+            }
         });
 
         wardName = new TextField("Ward name");

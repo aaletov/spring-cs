@@ -5,6 +5,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
@@ -17,22 +18,24 @@ import cs.events.WardChangeEvent;
 import cs.services.DiagnosisService;
 import cs.services.PeopleService;
 import cs.services.WardService;
-import jdk.jshell.Diag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 import java.util.LinkedHashMap;
 
 @SpringComponent
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Route("")
 public class MainView extends AppLayout {
     private PeopleService peopleService;
     private DiagnosisService diagnosisService;
     private WardService wardService;
+    private VerticalLayout home;
     private PeopleView peopleView;
     private WardView wardView;
+    private DiagnosisView diagnosisView;
     private ApplicationContext applicationContext;
 
     private Tabs tabs;
@@ -52,6 +55,7 @@ public class MainView extends AppLayout {
         addAttachListener((e) -> {
             peopleView = applicationContext.getBean(PeopleView.class);
             wardView = applicationContext.getBean(WardView.class);
+            diagnosisView = applicationContext.getBean(DiagnosisView.class);
 
             createChilds();
             addToNavbar(title, tabs);
@@ -59,6 +63,8 @@ public class MainView extends AppLayout {
             tabs.addSelectedChangeListener((event) -> {
                 updateTab(event);
             });
+
+            setContent(home);
         });
     }
 
@@ -72,10 +78,13 @@ public class MainView extends AppLayout {
                 .set("margin-left", "50px")
                 .set("margin-right", "30px");
 
+        home = new VerticalLayout();
+        home.add(new Text("Welcome to the Hospital App"));
+
         this.tabComponentMap = new LinkedHashMap<>() {{
-            put(new Tab("Dashboard"), new Text("Sheesh"));
+            put(new Tab("Home"), home);
             put(new Tab("People"), peopleView);
-            put(new Tab("Diagnoses"), new Text("Sheesh"));
+            put(new Tab("Diagnoses"), diagnosisView);
             put(new Tab("Wards"), wardView);
         }};
 
@@ -87,6 +96,9 @@ public class MainView extends AppLayout {
 
     public void updateTab(Tabs.SelectedChangeEvent e) {
         Component component = tabComponentMap.get(e.getSelectedTab());
+        if (this.getContent() != null) {
+            component.getElement().removeFromTree();
+        }
         setContent(component);
     }
 

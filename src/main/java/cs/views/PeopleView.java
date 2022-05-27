@@ -1,20 +1,13 @@
 package cs.views;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
-import cs.models.People;
-import cs.services.DiagnosisService;
-import cs.services.PeopleService;
-import cs.services.WardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
 
-import java.util.List;
-
+@DependsOn("mainView")
 @SpringComponent
 @Scope("prototype")
 public class PeopleView extends VerticalLayout {

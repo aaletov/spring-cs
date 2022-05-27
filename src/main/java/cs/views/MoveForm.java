@@ -3,6 +3,7 @@ package cs.views;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import cs.exceptions.EmptyFieldException;
 import cs.exceptions.NoSuchEntryException;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Scope;
 
 import java.util.List;
 
+@DependsOn("mainView")
 @SpringComponent
 @Scope("prototype")
 public class MoveForm extends FormLayout {
@@ -26,6 +28,7 @@ public class MoveForm extends FormLayout {
     private ComboBox<People> peopleBox;
     private ComboBox<Ward> wardTarget;
     private Button moveButton;
+    private Span isFull;
 
     MoveForm(@Autowired PeopleService peopleService,
              @Autowired WardService wardService,
@@ -40,7 +43,8 @@ public class MoveForm extends FormLayout {
         add(
                 peopleBox,
                 wardTarget,
-                moveButton
+                moveButton,
+                isFull
         );
 
         mainView.addPeopleChangeEventListener((e) -> updateComboBoxes());
@@ -70,14 +74,20 @@ public class MoveForm extends FormLayout {
 
     private void configureButtons() {
         moveButton = new Button("Confirm");
+        isFull = new Span("Is full");
+        isFull.getElement().getThemeList().add("badge error normal");
+        isFull.setVisible(false);
 
         moveButton.addClickListener((e) -> {
             try {
                 movePerson();
                 mainView.firePeopleChangeEvent();
+                isFull.setVisible(false);
             } catch (EmptyFieldException err) {
                 System.out.println("Caught exception");
                 return;
+            } catch (IllegalArgumentException err) {
+                isFull.setVisible(true);
             }
         });
     }
@@ -95,6 +105,10 @@ public class MoveForm extends FormLayout {
 
         if ((person == null) || (wardTargetValue == null)) {
             throw new EmptyFieldException("Cannot be null");
+        }
+
+        if (wardTargetValue.getPeoples().size() == wardTargetValue.getMaxCount()) {
+            throw new IllegalArgumentException("Ward is full");
         }
 
         peopleBox.clear();

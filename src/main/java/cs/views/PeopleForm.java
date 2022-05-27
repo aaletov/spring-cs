@@ -5,6 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Scope;
 
 import java.util.List;
 
+@DependsOn("mainView")
 @SpringComponent
 @Scope("prototype")
 public class PeopleForm extends FormLayout {
@@ -31,6 +33,7 @@ public class PeopleForm extends FormLayout {
     private ComboBox<Ward> ward;
     private ComboBox<Diagnosis> diagnosis;
     private Button save;
+    private Span isFull;
 
     private PeopleService peopleService;
     private WardService wardService;
@@ -64,6 +67,10 @@ public class PeopleForm extends FormLayout {
         });
 
         mainView.addWardChangeEventListener((e) -> {
+            updateComboBoxes();
+        });
+
+        mainView.addDiagnosisChangeEventListener((e) -> {
             updateComboBoxes();
         });
     }
@@ -145,12 +152,20 @@ public class PeopleForm extends FormLayout {
 
 
     private void configureButtons() {
+        isFull = new Span("Is full");
+        isFull.getElement().getThemeList().add("badge error normal");
+        isFull.setVisible(false);
+
         save.addClickListener((e) -> {
             try {
                 People people = getPeople();
-                peopleService.save(people);
-
-                mainView.firePeopleChangeEvent();
+                if (people.getWard().getPeoples().size() < people.getWard().getMaxCount()) {
+                    peopleService.save(people);
+                    isFull.setVisible(false);
+                    mainView.firePeopleChangeEvent();
+                } else {
+                    isFull.setVisible(true);
+                }
             } catch (EmptyFieldException err) {
                 System.out.println("Caught exception");
                 return;
@@ -162,6 +177,6 @@ public class PeopleForm extends FormLayout {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.addClickShortcut(Key.ENTER);
 
-        return new HorizontalLayout(save);
+        return new HorizontalLayout(save, isFull);
     }
 }

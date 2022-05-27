@@ -4,8 +4,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.spring.annotation.SpringComponent;
+import cs.models.Diagnosis;
 import cs.models.Ward;
-import cs.services.WardService;
+import cs.services.DiagnosisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
@@ -15,26 +16,27 @@ import java.util.List;
 @DependsOn("mainView")
 @SpringComponent
 @Scope("prototype")
-public class WardGrid extends Grid<Ward> {
+public class DiagnosisGrid extends Grid<Diagnosis> {
     private MainView mainView;
-    private WardService wardService;
+    private DiagnosisService diagnosisService;
 
-    public WardGrid(@Autowired MainView mainView, @Autowired WardService wardService) {
-        super(Ward.class);
+    public DiagnosisGrid(@Autowired MainView mainView,
+                         @Autowired DiagnosisService diagnosisService) {
+        super(Diagnosis.class);
 
         this.mainView = mainView;
-        this.wardService = wardService;
+        this.diagnosisService = diagnosisService;
 
         addClassNames("contact-grid");
         setSizeFull();
-        setColumns("name", "maxCount");
+        setColumns("name");
 
-        addComponentColumn(ward -> {
+        addComponentColumn(diagnosis -> {
             Button button = new Button("Delete");
             button.addClickListener((e) -> {
-                if (ward.getPeoples().size() == 0) {
-                    wardService.delete(ward.getId());
-                    mainView.fireWardChangeEvent();
+                if (diagnosis.getPeopleList().size() == 0) {
+                    diagnosisService.delete(diagnosis.getId());
+                    mainView.fireDiagnosisChangeEvent();
                 } else {
                     button.addThemeVariants(ButtonVariant.LUMO_ERROR);
                     button.setText("Not empty");
@@ -49,12 +51,13 @@ public class WardGrid extends Grid<Ward> {
             updateGrid();
         });
 
-        mainView.addWardChangeEventListener((e) -> {
+        mainView.addDiagnosisChangeEventListener((e) -> {
             updateGrid();
         });
     }
 
     private void updateGrid() {
-        setItems((List<Ward>) wardService.getAll());
+        setItems((List<Diagnosis>) diagnosisService.getAllDiagnoses());
     }
+
 }

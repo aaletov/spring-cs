@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 
 import java.util.List;
 
+@DependsOn("mainView")
 @SpringComponent
 @Scope("prototype")
 public class PeopleGrid extends Grid<People> {

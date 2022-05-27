@@ -10,19 +10,19 @@ import org.springframework.context.annotation.Scope;
 @DependsOn("mainView")
 @SpringComponent
 @Scope("prototype")
-public class WardView extends VerticalLayout {
+public class DiagnosisView extends VerticalLayout {
     private MainView mainView;
-    private WardSideLayout sideLayout;
-    private WardGrid wardGrid;
+    private DiagnosisSideLayout sideLayout;
+    private DiagnosisGrid diagnosisGrid;
 
     private HorizontalLayout content;
 
-    public WardView(@Autowired MainView mainView,
-                    @Autowired WardSideLayout sideLayout,
-                    @Autowired WardGrid wardGrid) {
+    public DiagnosisView(@Autowired MainView mainView,
+                         @Autowired DiagnosisSideLayout sideLayout,
+                         @Autowired DiagnosisGrid diagnosisGrid) {
         this.mainView = mainView;
         this.sideLayout = sideLayout;
-        this.wardGrid = wardGrid;
+        this.diagnosisGrid = diagnosisGrid;
 
         addClassName("list-view");
         setSizeFull();
@@ -36,8 +36,8 @@ public class WardView extends VerticalLayout {
     }
 
     private void createContent() {
-        content = new HorizontalLayout(wardGrid, sideLayout);
-        content.setFlexGrow(2, wardGrid);
+        content = new HorizontalLayout(diagnosisGrid, sideLayout);
+        content.setFlexGrow(2, diagnosisGrid);
         content.setFlexGrow(1, sideLayout);
         content.addClassNames("content");
         content.setSizeFull();

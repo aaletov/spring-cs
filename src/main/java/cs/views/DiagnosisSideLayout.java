@@ -15,26 +15,23 @@ import java.util.LinkedHashMap;
 @DependsOn("mainView")
 @SpringComponent
 @Scope("prototype")
-public class PeopleSideLayout extends VerticalLayout {
-    private PeopleForm peopleForm;
-    private MoveForm moveForm;
+public class DiagnosisSideLayout extends VerticalLayout {
+    private MainView mainView;
+    private DiagnosisForm diagnosisForm;
 
     private Tabs tabs;
     private Component currentComponent;
     private LinkedHashMap<Tab, Component> tabComponentMap;
 
-    PeopleSideLayout(@Autowired PeopleForm peopleForm,
-                     @Autowired MoveForm moveForm) {
-        this.peopleForm = peopleForm;
-        this.moveForm = moveForm;
+    DiagnosisSideLayout(@Autowired MainView mainView, @Autowired DiagnosisForm diagnosisForm) {
+        this.mainView = mainView;
+        this.diagnosisForm = diagnosisForm;
 
         setWidth("");
-        peopleForm.setWidth("25em");
-        moveForm.setWidth("25em");
+        diagnosisForm.setWidth("25em");
 
         this.tabComponentMap = new LinkedHashMap<>() {{
-            put(new Tab("Create"), peopleForm);
-            put(new Tab("Move"), moveForm);
+            put(new Tab("Create"), diagnosisForm);
         }};
 
         Tabs tabs = new Tabs();
@@ -42,8 +39,8 @@ public class PeopleSideLayout extends VerticalLayout {
         tabComponentMap.keySet().stream().forEach((tab) -> tabs.add(tab));
         tabs.addThemeVariants(TabsVariant.LUMO_CENTERED);
 
-        add(tabs, peopleForm);
-        currentComponent = peopleForm;
+        add(tabs, diagnosisForm);
+        currentComponent = diagnosisForm;
 
         tabs.addSelectedChangeListener((e) -> {
             updateTab(e);
