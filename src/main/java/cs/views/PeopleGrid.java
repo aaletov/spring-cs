@@ -47,7 +47,6 @@ public class PeopleGrid extends Grid<People> {
         });
 
         mainView.addPeopleChangeEventListener((e) -> {
-            System.out.println("Event happened");
             updateGrid();
         });
     }

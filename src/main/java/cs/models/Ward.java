@@ -27,7 +27,7 @@ public class Ward {
 
     @JsonIgnore
     @JsonManagedReference
-    @OneToMany(mappedBy = "ward")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ward")
     private List<People> peoples;
 
     public Ward() {}

@@ -32,9 +32,9 @@ public class PeopleForm extends FormLayout {
     private ComboBox<Diagnosis> diagnosis;
     private Button save;
 
-    PeopleService peopleService;
-    WardService wardService;
-    DiagnosisService diagnosisService;
+    private PeopleService peopleService;
+    private WardService wardService;
+    private DiagnosisService diagnosisService;
 
     public PeopleForm(@Autowired PeopleService peopleService,
                       @Autowired WardService wardService,
@@ -60,6 +60,10 @@ public class PeopleForm extends FormLayout {
                 createButtonsLayout());
 
         mainView.addPeopleChangeEventListener((e) -> {
+            updateComboBoxes();
+        });
+
+        mainView.addWardChangeEventListener((e) -> {
             updateComboBoxes();
         });
     }
@@ -159,6 +163,5 @@ public class PeopleForm extends FormLayout {
         save.addClickShortcut(Key.ENTER);
 
         return new HorizontalLayout(save);
-
     }
 }

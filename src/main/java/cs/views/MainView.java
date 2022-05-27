@@ -11,10 +11,13 @@ import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.spring.annotation.SpringComponent;
+import cs.events.DiagnosisChangeEvent;
 import cs.events.PeopleChangeEvent;
+import cs.events.WardChangeEvent;
 import cs.services.DiagnosisService;
 import cs.services.PeopleService;
 import cs.services.WardService;
+import jdk.jshell.Diag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +32,7 @@ public class MainView extends AppLayout {
     private DiagnosisService diagnosisService;
     private WardService wardService;
     private PeopleView peopleView;
+    private WardView wardView;
     private ApplicationContext applicationContext;
 
     private Tabs tabs;
@@ -47,6 +51,7 @@ public class MainView extends AppLayout {
 
         addAttachListener((e) -> {
             peopleView = applicationContext.getBean(PeopleView.class);
+            wardView = applicationContext.getBean(WardView.class);
 
             createChilds();
             addToNavbar(title, tabs);
@@ -71,7 +76,7 @@ public class MainView extends AppLayout {
             put(new Tab("Dashboard"), new Text("Sheesh"));
             put(new Tab("People"), peopleView);
             put(new Tab("Diagnoses"), new Text("Sheesh"));
-            put(new Tab("Wards"), new Text("Sheesh"));
+            put(new Tab("Wards"), wardView);
         }};
 
         Tabs tabs = new Tabs();
@@ -91,5 +96,21 @@ public class MainView extends AppLayout {
 
     public void firePeopleChangeEvent() {
         fireEvent(new PeopleChangeEvent(this, false));
+    }
+
+    public Registration addWardChangeEventListener(ComponentEventListener<WardChangeEvent> listener) {
+        return addListener(WardChangeEvent.class, listener);
+    }
+
+    public void fireWardChangeEvent() {
+        fireEvent(new WardChangeEvent(this, false));
+    }
+
+    public Registration addDiagnosisChangeEventListener(ComponentEventListener<DiagnosisChangeEvent> listener) {
+        return addListener(DiagnosisChangeEvent.class, listener);
+    }
+
+    public void fireDiagnosisChangeEvent() {
+        fireEvent(new DiagnosisChangeEvent(this, false));
     }
 }
