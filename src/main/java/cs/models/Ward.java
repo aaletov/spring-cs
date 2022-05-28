@@ -1,18 +1,21 @@
 package cs.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Ward {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
@@ -22,6 +25,7 @@ public class Ward {
     @NotNull
     private Integer maxCount;
 
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "ward")
     private List<People> peoples;

@@ -1,17 +1,18 @@
 package cs.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 public class People {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
@@ -23,12 +24,14 @@ public class People {
     @NotNull
     private String patherName;
 
-    @JsonBackReference
+    @JsonProperty("diagnosis_id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name = "diagnosis_id")
     private Diagnosis diagnosis;
 
-    @JsonBackReference
+    @JsonProperty("ward_id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name = "ward_id")
     private Ward ward;
