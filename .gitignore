@@ -1,3 +1,5 @@
 .idea
 target
 application.yml
+*.class
+*.jar
