@@ -8,6 +8,7 @@ import cs.repos.DiagnosisRepository;
 import cs.repos.PeopleRepository;
 import cs.repos.WardRepository;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,9 +41,18 @@ import static org.junit.Assert.assertNotNull;
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PeopleDataBaseControllerTest {
+    private MockMvc mockMvc;
 
     @Autowired
-    private MockMvc mockMvc;
+    private WebApplicationContext context;
+
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @Autowired
     ObjectMapper objectMapper;
@@ -98,6 +111,7 @@ public class PeopleDataBaseControllerTest {
                 1, 1);
 
         mockMvc.perform(post("/api/people/save")
+                .with(Utils.getUserInfo())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(peopleApiModel)))
                 .andExpect(status().isOk());
@@ -123,6 +137,7 @@ public class PeopleDataBaseControllerTest {
         );
 
         mockMvc.perform(post("/api/people/saveAll")
+                .with(Utils.getUserInfo())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(apiModelList)))
                 .andExpect(status().isOk());
@@ -141,6 +156,7 @@ public class PeopleDataBaseControllerTest {
         wardRepository.save(ward);
 
         mockMvc.perform(patch("/api/people/patchPeopleWard")
+                .with(Utils.getUserInfo())
                 .param("peopleId", "1")
                 .param("wardId", "2"))
                 .andExpect(status().isOk());
@@ -163,6 +179,7 @@ public class PeopleDataBaseControllerTest {
         wardRepository.save(ward);
 
         mockMvc.perform(patch("/api/people/moveAllPeopleFromWardToWard")
+                .with(Utils.getUserInfo())
                 .param("wardSourceId", "1")
                 .param("wardDestId", "2"))
                 .andExpect(status().isOk());
@@ -174,6 +191,7 @@ public class PeopleDataBaseControllerTest {
         peopleRepository.save(people);
 
         mockMvc.perform(delete("/api/people/delete")
+                .with(Utils.getUserInfo())
                 .param("peopleId", "1"))
                 .andExpect(status().isOk());
 

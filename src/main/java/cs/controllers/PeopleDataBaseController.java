@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/people")
+@RequestMapping("/api/people")
 public class PeopleDataBaseController {
 
     private PeopleService peopleService;
