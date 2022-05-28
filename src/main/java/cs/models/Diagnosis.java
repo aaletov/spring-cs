@@ -16,7 +16,7 @@ public class Diagnosis {
 
     @JsonManagedReference
     @JsonIgnore
-    @OneToMany(mappedBy = "diagnosis")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "diagnosis")
     private List<People> peopleList;
 
     @Id

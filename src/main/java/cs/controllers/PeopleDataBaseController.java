@@ -48,7 +48,7 @@ public class PeopleDataBaseController {
 
     @PostMapping("/save")
     public String save(@RequestBody PeopleApiModel peopleApiModel) throws JsonProcessingException, NoSuchEntryException {
-        peopleService.save(peopleApiModel);
+        peopleService.saveApiModel(peopleApiModel);
         return "Saved successfully";
     }
 
